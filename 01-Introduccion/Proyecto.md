@@ -21,6 +21,7 @@
 9. Libreria para Arrastrar y Soltar p/ Editar o Eliminar
 10. LocalStorage y useEffect de React
 11. Reinicio de Aplicacion
+12. Visualizacion de diferentes pantallas segun validacion
 
 ## 03 - Cotizador de Monedas
 1. React Js
@@ -29,7 +30,7 @@
 4. Consulta a API
 5. Lectura de Datos de Select para consultar API
 6. Utilizacion de Styled Components
-7. Creacion de Propios Hooks
+7. Creacion de Propios Hooks (Custom Hooks)
 8. Spinner de Carga
 
 ## 04 - CRM de Clientes
@@ -37,7 +38,7 @@
 2. Vite
 3. Validacion de Formularios
 4. Crear y Consumir API en Json
-5. React Router DOM
+5. React Router DOM V6.4
 6. LocalStorage y useEffect de React
 7. Crear, Ver Listado, Editar y Eliminar Clientes
 
@@ -45,15 +46,37 @@
 1. React Js
 2. Vite
 3. Next.js
-4. Backend con CMS Strapi que da respuesta como una API REST en JSON
-5. Animaciones de CSS
-6. Carrito de Compras
-7. Routing Dinamico con Next.js
-8. Server Side Rendering con Next.js y Static Rendering con React
-9. Server Side Props con Next.js
-10. Uso de Next Image para Performance y SEO
-11. Agregar State Global a una aplicacion de Next.js para Carrito
-12. Pagina de Error con Next.js 404 Not Found y 500 Internal Server Error
+4. Strapi (devuelve respuesta de tipo JSON mediante su API para cargar datos en nuestra web)
+5. Imagenes hospedadas en Cloudinary
+6. Backend con CMS Strapi que da respuesta como una API REST en JSON
+7. Utilizacion de Context API
+8. Animaciones de CSS
+9. Carrito de Compras
+10. Routing Dinamico con Next.js
+11. Server Side Rendering con Next.js y Static Rendering con React
+12. Server Side Props con Next.js
+13. Uso de Next Image para Performance y SEO
+14. Agregar State Global a una aplicacion de Next.js para Carrito
+15. Pagina de Error con Next.js 404 Not Found y 500 Internal Server Error
+16. Permite tener sitios enfocados al SEO
+
+## 05 - GuitarLA
+1. React Js
+2. Vite
+3. Remix Run
+4. Strapi (devuelve respuesta de tipo JSON mediante su API para cargar datos en nuestra web)
+5. Imagenes hospedadas en Cloudinary
+6. Backend con CMS Strapi que da respuesta como una API REST en JSON
+7. Utilizacion de Context API
+8. Animaciones de CSS
+9. Carrito de Compras
+10. Routing Dinamico con Remix Run
+11. Server Side Rendering con Remix Run y Static Rendering con React
+12. Server Side Props con Remix Run
+13. Uso de Next Image para Performance y SEO
+14. Agregar State Global a una aplicacion de Remix Run para Carrito
+15. Pagina de Error con Remix Run 404 Not Found y 500 Internal Server Error
+16. Permite tener sitios enfocados al SEO
 
 ## 06 - Cotizador de Seguros de Automoviles
 1. React Js
@@ -111,12 +134,12 @@
 4. Frontend incluye Tailwind CSS, Headless UI que es el Framework de React de Tailwind CSS, Manejo de Estado Global por medio de Context API, Custom Hooks
 5. Creacion de Cuentas, Reset de Password y Login de Usuario
 6. Validacion de Formularios
-7. En BasE de Datos, Creacion de Tablas, Insertar, Actualizar, Eliminar y Consultar Datos
+7. En Base de Datos, Creacion de Tablas, Insertar, Actualizar, Eliminar y Consultar Datos
 8. En Table de Base de Datos agregar Password Hasheada y Salt para encriptar contraseñas
 9. En Table de Base de Datos creacion de Token de un solo uso para confirmar la cuenta del usuario por medio de e-mail
 10. Token para Resetear Password
 11. Token no Valido al Ingresar al Mismo Link del E-Mail luego de Confirmar la Cuenta
-12. React Router DOM para Routing Dinamico con Proteccion de Rutas
+12. React Router DOM para Routing Dinamico con Proteccion de Rutas mediante Autenticacion (JWT Frontend y Backend)
 13. Creacion de Nuevo Proyecto
 14. Creacion de Tareas y Colaboradores en el Proyecto con Ventana Modal
 15. Proyectos con Colaboradores marcados como tal
@@ -137,7 +160,7 @@
 4. Backend incluye Firebase como Hosting y Backend
 5. Subida de Imagenes a Firebase Storage
 6. Sisteema de Votos
-7. Actualizacion de Votos en Firebase Realtime Database en Tiempo Real
+7. Actualizacion de Votos en Firebase Realtime Database en Tiempo Real con Socket.io
 8. Agregado de Comentarios y solo modificado por el Creador de la entrada
 9. Buscador de Proyectos
 10. Filtro de Proyectos
@@ -145,8 +168,8 @@
 ## 15 - Hotel Gatsby
 1. React Js
 2. Vite
-3. Gatsby.js
-4. Consulta a la Informacion de un CMS externo mediante Graphql
+3. Gatsby.js similar a NextJs
+4. Consulta a la Informacion de un CMS externo (Dato CMS) mediante Graphql
 
 # ¿Que es React?
 React Js es basicamente un libreria de JavaScript para constuir interfaces de usuario.
@@ -167,5 +190,5 @@ Los Componentes son **Funciones** de JavaScript que retornan una **Vista**. Se l
 Podemos tener componentes de: Header, Navegacion, Sidebar, Contenido, Productos y dentro de los Productos, Componentes de Producto, Footer.
 
 ## ¿Que se necesita para aprender React?
-1. Conocer la sintaxis Moderna de JavaScript (ES6)
+1. Conocer la Sintaxis Moderna de JavaScript (ES6)
 2. Conocimientos basicos de HTML y CSS
