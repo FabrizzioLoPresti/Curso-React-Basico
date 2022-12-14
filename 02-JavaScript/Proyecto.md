@@ -14,11 +14,12 @@
 13. Tipos de Datos
 14. Variables y Scope
 15. Destructuracion de Objetos y Arrays
+16. Algoritmos y Estructura de Datos - Logica de Programacion
 
 ## Variables con let (01.js)
 En JavaScript, las variables se declaran con la palabra reservada `var`, `let` o `const`. Actualmente se utilizan `let` y `const`.
 
-JavaScript es un Lenguaje de Tipado Dinamico, por lo que una variable puede contener diferentes tipos de datos, ya que el tipo de dato se almacena en el valor de la variable y no en la variable como tal. Ademas se utiliza CamelCase para nombrar las variables.
+JavaScript es un Lenguaje de **Tipado Dinamico**, por lo que una variable puede contener diferentes tipos de datos, ya que **el tipo de dato se almacena en el valor de la variable y no en la variable como tal**. Ademas se utiliza CamelCase para nombrar las variables.
 
 Tienen dos caracteristicas principales:
 1. Se pueden re-asignar los valores
@@ -58,7 +59,7 @@ Const se utiliza mas, ya que se usa para almacenar elementos del DOM que son con
 9. Object -> Objetos (Array, Objeto, etc)
 
 ### Cohercion de Tipos de Datos
-1. Coercion de tipos de datos
+1. Cohercion de tipos de datos
     * Cuando se realiza una operacion con dos tipos de datos distintos, se realiza la operacion con el tipo de dato mas general
     * Cuando se realiza una operacion con dos tipos de datos iguales, se realiza la operacion con el tipo de dato mas especifico
 Transformar a Number con la Funcion Number()
@@ -144,7 +145,7 @@ Podemos utilizar Object.seal() (**Object Method**), el cual permite modificar un
   };
 
   const { nombre, precio, disponible } = producto;
-  const { nombre: nombreCliente, premium } = cliente;
+  const { nombre: nombreCliente, premium } = cliente; // Agregar un alias a la variable creada en base a la propiedad del Objeto que toma como valor el valor de la Propiedad del Objeto
 ```
 
 ### Unir dos Objetos en uno solo (07.js)
@@ -160,7 +161,7 @@ Podemos utilizar Object.seal() (**Object Method**), el cual permite modificar un
     premium: true
   };
 
-  // const nuevoObjeto = Object.assign(producto, cliente); NO pq modifica los objetos originales
+  // const nuevoObjeto = Object.assign(producto, cliente); NO pq modifica los objetos originales, ademas que si los nombres de las propiedades son iguales toma el valor de la ultima
 
   // Mediante Spread Operator (no modifica los objetos originales)
   const nuevoObjeto2 = { ...producto, ...cliente }; // Sobreescribe las variables nombre
