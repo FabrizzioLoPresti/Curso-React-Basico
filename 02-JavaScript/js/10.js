@@ -1,5 +1,5 @@
 // Destructuring de Arrays
-const tecnologias = ['HTML', 'CSS', 'JavaScript', 'React', 'NodeJS'];
+const tecnologias = ['HTML', 'CSS', 'JavaScript', 'React', 'NodeJS']
 console.table( tecnologias )
 
 const [html] = tecnologias

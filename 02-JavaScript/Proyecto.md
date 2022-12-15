@@ -228,14 +228,16 @@ En el caso de los Arreglos, a diferencia de los Objectos donde se extraian y cre
 ```js
   const tecnologiasArray = tecnologias.map( (tecnologia, index) => {
     return(`${index} - ${tecnologia}`);
+    return `${index} - ${tecnologia}`
   });
+  const nuevoArreglo = tecnologias.map((tech, index) => `${index} => ${tech}`)
   console.log( tecnologiasArray );
 ```
 
 ## Funciones - Function Declaration (12.js)
 Se utilizan para agrupar bloques de codigo. Utilizar siempre para nombrarlas CamelCase.
 
-Una caracteristica de Function Declaration es que puedes llamar a la funcion antes de definirla, debido a que primero se registran las funciones y en un segundo paso se ejecutan, debido a las dos fase de JavaScript (de creacion y de ejecucion).
+Una caracteristica de Function Declaration es que puedes llamar a la funcion antes de definirla, debido a que primero se registran las funciones y en un segundo paso se ejecutan (**Hoisting**), debido a las dos fase de JavaScript (de creacion y de ejecucion).
 
 ```js
   console.log( saludar('Pedro') ); // Hola Pedro
@@ -282,7 +284,7 @@ Permite crear funciones que retornen valores para posteriormente almacenarlos en
 ```
 
 ## Funciones - Function Expression (15.js)
-No solamente se diferencia de las Function Declaration por su sintaxis, sino tambien porque este tipo de funciones no puede ser Primero llamado y luego Creado, esto se debe a que se crean como variables y JavaScript no permite que se llame a una variable antes de que se haya creado. En el Primer Paso JavaScript registra todas las funciones en una Fase de Creacion y en la Segunda Fase de Ejecucion las manda a llamar , pero con esta Sintaxis las variables no se registran en la Fase de Creacion, sino en la Fase de Ejecucion, por lo tanto si llamamos primero a la funcion no la encuentra porque cree que no esta creada.
+No solamente se diferencia de las Function Declaration por su sintaxis, sino tambien porque este tipo de funciones no puede ser Primero llamado y luego Creado, esto se debe a que **se crean como variables y JavaScript no permite que se llame a una variable antes de que se haya creado**. En el Primer Paso JavaScript registra todas las funciones en una Fase de Creacion y en la Segunda Fase de Ejecucion las manda a llamar , pero con esta Sintaxis las variables no se registran en la Fase de Creacion, sino en la Fase de Ejecucion, por lo tanto si llamamos primero a la funcion no la encuentra porque cree que no esta creada.
 ```js
   const sumar = function(a, b) {
     return a + b;
@@ -294,7 +296,7 @@ No solamente se diferencia de las Function Declaration por su sintaxis, sino tam
 ## Funciones - Arrow Functions (16.js)
 Solamente se pueden utilizar en la Sintaxis de Funtion Expression.
 
-Una caracteristica de los Arrow Functions es que cuando solo tienes una linea de codigo que implica un Return, se pueden eliminar las llaves y toma como Implicito el Return.
+Una caracteristica de los Arrow Functions es que cuando solo tienes una linea de codigo que implica un Return, se pueden eliminar las llaves y toma como **Implicito el Return**.
 
 Tambien si pasamos un unico parametro, podemos eliminar los parentesis.
 ```js
@@ -319,16 +321,37 @@ Tambien si pasamos un unico parametro, podemos eliminar los parentesis.
 
 ## Arrow Functions y Array Methods (17.js)
 ```js
-  const nuevoArray = tecnologias.map((tecnologia, index) => `${tecnologia} - ${index}`);
-  console.log(nuevoArray);
+  const tecnologias = ['HTML', 'CSS', 'JavaScript', 'React', 'Node.js']
+  const numeros = [10, 5, 3, 1, 52]
+
+  // Recorrer arreglo
+  tecnologias.forEach((tech, index) => {
+    console.log(`${index} - ${tech}`)
+  })
 
   // Reemplazar elemento de un array
-  const nuevoArray2 = tecnologias.map(tecnologia => tecnologia === 'JavaScript' ? 'JavaScript - ES6' : tecnologia);
-  console.log(nuevoArray2);
+  const nuevoArray = tecnologias.map(tech => {
+    return tech === 'HTML' ? 'GraphQL' : tech
+  })
+  console.table( nuevoArray )
+
+  const nuevoArray2 = tecnologias.map(tech => tech === 'HTML' ? 'GraphQL' : tech)
+  console.table( nuevoArray2 )
 
   // Eliminar elemento de un array
-  const nuevoArray3 = tecnologias.filter((tecnologia) => tecnologia !== 'JavaScript');
-  console.log(nuevoArray3);
+  const nuevoArray3 = tecnologias.filter(tech => {
+    return tech !== 'React'
+  })
+  console.table( nuevoArray3 )
+
+  const nuevoArray4 = tecnologias.filter(tech => tech !== 'React')
+  console.table( nuevoArray4 )
+
+  // Acumular Resultado
+  const resultado = numeros.reduce((acum, nro) => {
+    return acum += nro
+  }, 0)
+  console.log( resultado )
 ```
 
 ### Otros Array Methods Utiles (18.js) - NO MUTAN EL ARREGLO ORIGINAL (doesitmutate.xyz)
@@ -337,7 +360,7 @@ Tambien si pasamos un unico parametro, podemos eliminar los parentesis.
   const nuevoArray = tecnologias.filter(tecnologia => tecnologia !== 'JavaScript'); // ['HTML', 'CSS', 'React', 'NodeJS']
   const resultado  = numeros.filter(numero => numero >= 10); // [10, 20 , 30]
 ```
-2. **Include** -> Devuelve un valor booleano indicando si el elemento que buscamos existe en el arreglo o no
+2. **Includes** -> Devuelve un valor booleano indicando si el elemento que buscamos existe en el arreglo o no
 ```js
   const resultado = tecnologias.includes('JavaScript');
 ```
@@ -361,10 +384,11 @@ Tambien si pasamos un unico parametro, podemos eliminar los parentesis.
 ```js
   numeros.forEach((numero, index) => console.log(`${index} - ${numero}`));
 ```
-8. **Map** -> Devuelve un nuevo arreglo con los elementos (podemos utilizarlo para EDITAR los elementos, verificamos condicion y si se cumple, evolvemos un nuevo elemento, si no se cumple devolvemos el elemento original). Si validamos por una condicion nos devuelve true o false por cada elemento. No funciona como el Filter, donde te devuelve el elemento si cumple con la condicion, aca devuelve el resultado de la condicion evaluada.
+8. **Map** -> Devuelve un nuevo arreglo con los elementos (podemos utilizarlo para EDITAR o REEMPLAZAR los elementos, verificamos condicion y si se cumple, devolvemos un nuevo elemento, si no se cumple devolvemos el elemento original). Si validamos por una condicion nos devuelve true o false por cada elemento. No funciona como el Filter, donde te devuelve el elemento si cumple con la condicion, aca devuelve el resultado de la condicion evaluada.
 ```js
   const resultado = tecnologias.map(tecnologia => tecnologia); // ['HTML', 'CSS', 'React', 'NodeJS']
   const resultado = tecnologias.map(tecnologia => tecnologia === 'JavaScript'); // [true, false, false, false, false]
+  const resultado = tecnologias.map(tecnologia => tecnologia === 'HTML' ? 'GraphQL' : tecnologia)
   const resultado = numeros.map(numero => numero > 10 ? numero : 0); // [0, 20, 30]
 ```
 
