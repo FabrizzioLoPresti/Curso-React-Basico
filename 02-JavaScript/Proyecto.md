@@ -408,7 +408,10 @@ Se conoce a `===` como **Operador Estricto de Comparacion**, ya que no solo comp
 ```js
   const resultado = 10 == '10'; // true
   const resultado = 10 === '10'; // false
+
+  // Funciones Cohercitivas
   const resultado = numero1 === Number(numero2); // true
+  const resultado = String(numero1) === numero2; // true
 
   const numero1 = 10;
   const numero2 = "10";
@@ -423,6 +426,18 @@ Se conoce a `===` como **Operador Estricto de Comparacion**, ya que no solo comp
     console.log("Son identicos");
   } else {
     console.log("No son identicos");
+  }
+
+  if(numero1 === Number(numero2)) {
+    console.log( 'Si son iguales' )
+  } else {
+    console.log( 'No son iguales' )
+  }
+
+  if(String(numero1) === numero2) {
+    console.log( 'Si son iguales' )
+  } else {
+    console.log( 'No son iguales' )
   }
 
   const autenticado = true;
@@ -445,6 +460,10 @@ Se conoce a `===` como **Operador Estricto de Comparacion**, ya que no solo comp
 ```js
   const resultado = 10 > 5 ? 'Si' : 'No'; // Si
   const resultado = 10 < 5 ? 'Si' : 'No'; // No
+
+  const autenticado = true
+  autenticado ? console.log( 'Usuario Autenticado' ) : console.log( 'Usuario No Autenticado' )
+  !autenticado ? console.log( 'Usuario Autenticado' ) : console.log( 'Usuario No Autenticado' )
 
   // Doble Ternario
   const saldo = 600;
@@ -513,13 +532,17 @@ Podemos seleccionar elementos con `querySelector` y manipularlos con `innerHTML`
 
   // Modificando mas de un elemento con querySelectorAll
   const enlaces = document.querySelectorAll('.navegacion a');
+  enlaces[2].textContent = 'Nuevo Enlace'
   enlaces.forEach(enlace => {
     enlace.textContent = 'Nuevo enlace';
   });
+  enlaces.forEach(enlace => enlace.textContent = 'Nuevo Enlace')
 ```
 
 ## Eventos del DOM - Clicks (27.js)
 Una de las caracteristicas de JavaScript es hacer los sitios web o aplicaciones dinamicos, esto se logra mediante los eventos.
+
+La funcion de `addEventListener` funciona pasandole como paramentros el Nombre del Evento a escuchar y una **Funcion Callback**.
 
 Si creamos por separado la funcion que se va a ejecutar en caso de darse el evento, al momento de llamarla debemos hacerlo sin los () debido a que esto va a provocar que se ejecute automatica e inmediatamente.
 
@@ -534,6 +557,13 @@ Si creamos por separado la funcion que se va a ejecutar en caso de darse el even
     console.log('Click en la navegación');
   }
   navegacion.addEventListener('click', clickNavegacion);
+
+  const enlaces = document.querySelectorAll('.navegacion a')
+  enlaces.forEach(enlace => {
+    enlace.addEventListener('click', () => {
+      console.log( 'Diste click en un enlace' )
+    })
+  })
 ```
 
 ## Eventos del DOM - Inputs (28.js)
@@ -548,6 +578,16 @@ Nos permite leer lo que los Usuarios escriben dentro de los Inputs.
   inputNombre.addEventListener('input', (e) => {
     console.log(e.target.value);
   });
+
+  const inputPassword = document.querySelector('.password')
+  const funcionPassword = (e) => {
+    console.log( e.target.value )
+    inputPassword.type = 'text'
+    setTimeout(() => {
+      inputPassword.type = 'password'
+    }, 1000);
+  }
+  inputPassword.addEventListener('input', funcionPassword)
 ```
 
 ## Eventos del DOM - Submit (29.js)
@@ -559,6 +599,11 @@ Es ideal para realizar validaciones antes de realizar inserciones a la Basde de 
   const formulario = document.querySelector('#formulario');
   formulario.addEventListener('submit', (e) => {
     e.preventDefault();
+    const nombre = document.querySelector('.nombre').value
+    const password = document.querySelector('.password').value
+    if(nombre === '' || password === '') {
+      return console.log( 'Todos los campos son obligatorios' )
+    }
     console.log('Formulario enviado');
   });
 ```
@@ -614,7 +659,7 @@ Podemos tener un unico `export default nombreFuncion` por archivo, en caso de te
   };
 ```
 
-## Fetch API y Promises (32.js) - Ver mas a fondo en Curso de JavaScript CodigoConJuan o Mozilla Developer Network o W3Schools
+## Fetch API y Promises (32.js) - **Ver mas a fondo en Curso de JavaScript CodigoConJuan o Mozilla Developer Network o W3Schools**
 Fetch API (nativo en el navegador) es el nuevo Ajax y permite hacer peticiones a una API REST, es decir, a una API que nos devuelve un objeto JSON. Axios tambien es otra opcion, es una libreria que nos permite hacer peticiones a una API REST, es decir, a una API que nos devuelve un objeto JSON.
 
 Un Promise es un valor que va a estar disponible ahora, en un futuro o nunca.
@@ -636,7 +681,7 @@ Un Promise es un valor que va a estar disponible ahora, en un futuro o nunca.
 ```
 
 ## Fetch API con Async/Await (33.js)
-El await se encarga de bloquear el codigo, en lo que hacemos la llamada a la API el await previene que la linea de codigo siguiente no se ejecute, la deteiene hasta que tenga un resultado. Una vez que la respuesta esta completa pasa a la siguiente linea de codigo. Siempre que tengamos un await debemos tener la funcion padre definida como async.
+El await se encarga de bloquear el codigo, en lo que hacemos la llamada a la API el await previene que la linea de codigo siguiente no se ejecute, la deteiene hasta que tenga un resultado. Una vez que la respuesta esta completa pasa a la siguiente linea de codigo. Siempre que tengamos un await debemos tener la funcion padre definida como async. **Await bloquea la ejecucion de la siguiente linea**.
 
 ```js
   const url = 'https://jsonplaceholder.typicode.com/comments';

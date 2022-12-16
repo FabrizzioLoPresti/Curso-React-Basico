@@ -10,7 +10,7 @@ Pero tambien existe una gran cantidad de herramientas ya disponibles para crear 
 
 ## Opciones Modernas para Crear Apps en React.js
 1. Vite
-2. Next.js
+2. Next.js (TurboPack)
 3. Remix Run
 
 ## Otras Opciones ya no tan Utilizadas
