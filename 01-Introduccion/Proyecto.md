@@ -1,6 +1,15 @@
 # Curso React Basico - Proyectos
 
-## 01 - Seguimiento de Pacientes de Veterinaria
+## 01 - FullStack React
+1. React Js
+2. Next.js
+3. Vite
+4. Prisma
+5. Tailwind CSS
+6. Astro
+7. SWR - Comportamiento en Tiempo Real
+
+## 02 - Seguimiento de Pacientes de Veterinaria
 1. React Js
 2. Tailwind CSS
 3. Vite
@@ -9,7 +18,7 @@
 6. useState y Context de React
 7. LocalStorage y useEffect de React
 
-## 02 - Planificador de Gastos
+## 03 - Planificador de Gastos
 1. React Js
 2. Tailwind CSS
 3. Vite
@@ -23,7 +32,7 @@
 11. Reinicio de Aplicacion
 12. Visualizacion de diferentes pantallas segun validacion
 
-## 03 - Cotizador de Monedas
+## 04 - Cotizador de Monedas
 1. React Js
 2. Vite
 3. Validacion de Formularios
@@ -33,7 +42,7 @@
 7. Creacion de Propios Hooks (Custom Hooks)
 8. Spinner de Carga
 
-## 04 - CRM de Clientes
+## 05 - CRM de Clientes
 1. React Js
 2. Vite
 3. Validacion de Formularios
@@ -42,7 +51,7 @@
 6. LocalStorage y useEffect de React
 7. Crear, Ver Listado, Editar y Eliminar Clientes
 
-## 05 - GuitarLA
+## 06 - GuitarLA
 1. React Js
 2. Vite
 3. Next.js
@@ -60,7 +69,7 @@
 15. Pagina de Error con Next.js 404 Not Found y 500 Internal Server Error
 16. Permite tener sitios enfocados al SEO
 
-## 05 - GuitarLA
+## 07 - GuitarLA
 1. React Js
 2. Vite
 3. Remix Run
@@ -78,7 +87,7 @@
 15. Pagina de Error con Remix Run 404 Not Found y 500 Internal Server Error
 16. Permite tener sitios enfocados al SEO
 
-## 06 - Cotizador de Seguros de Automoviles
+## 08 - Cotizador de Seguros de Automoviles
 1. React Js
 2. Vite
 3. Validacion de Formularios
@@ -86,21 +95,21 @@
 5. Utilizacion de Custom Hooks para acceder a ese estado global
 6. Spinner durante Carga de Calculo de Cotizacion
 
-## 07 - Busqueda de Letras de Canciones
+## 09 - Busqueda de Letras de Canciones
 1. React Js
 2. Vite
 3. Validacion de Formularios
 4. Consulta a API
 5. Spinner durante Carga de Datos
 
-## 08 - Buscador de Clima Actual
+## 10 - Buscador de Clima Actual
 1. React Js
 2. Vite
 3. Validacion de Formularios
 4. Consulta a API
 5. Spinner durante Carga de Datos
 
-## 09 - Buscador de Noticias
+## 11 - Buscador de Noticias
 1. React Js
 2. Vite
 3. Validacion de Formularios
@@ -109,7 +118,7 @@
 6. MaterialUI para Interfaz de Usuario basado en Componentes
 7. Paginacion de Noticias
 
-## 10 - Buscador de Bebidas
+## 12 - Buscador de Bebidas
 1. React Js
 2. Vite
 3. Validacion de Formularios
@@ -119,7 +128,7 @@
 7. Utilizacion de React Bootstrap para Interfaz de Usuario (Mejor Tailwind CSS)
 8. Ventana Modal con Receta de Tragos
 
-## 11 - Kiosco de Bebidas
+## 13 - Kiosco de Bebidas
 1. React Js
 2. Vite
 3. Validacion de Formularios
@@ -127,7 +136,7 @@
 5. Consulta a API
 6. Notificacion de Pedido Agregado
 
-## 12 - Proyecto Full Stack MERN UpTask
+## 14 - Proyecto Full Stack MERN UpTask
 1. React Js
 2. Vite
 3. Backend incluye Node.js y Express, MongoDB y Mongoose, Socket.io para tener aplicaciones en Tiempo Real
@@ -145,7 +154,7 @@
 15. Proyectos con Colaboradores marcados como tal
 16. Buscador de Proyectos con Autocompletado Dinamico
 
-## 13 - MERNTasks
+## 15 - MERNTasks
 1. React Js
 2. Vite
 3. Backend incluye Node.js y Express, MongoDB y Mongoose
@@ -153,7 +162,7 @@
 5. Validacion de Formularios
 6. Filtracion de Tareas de acuerdo al Proyecto
 
-## 14 - Clon de ProductHunt
+## 16 - Clon de ProductHunt
 1. React Js
 2. Vite
 3. Next.js
@@ -165,7 +174,7 @@
 9. Buscador de Proyectos
 10. Filtro de Proyectos
 
-## 15 - Hotel Gatsby
+## 17 - Hotel Gatsby
 1. React Js
 2. Vite
 3. Gatsby.js similar a NextJs
