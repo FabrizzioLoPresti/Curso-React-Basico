@@ -1,3 +1,0 @@
-- Administrador de Pacientes: [link](https://administradorpacientes-cursoreactbasico.netlify.app/)
-- Planificador de Gastos: [link](https://planificadorgastos-cursoreactbasico.netlify.app/)
-- Cotizador de Criptomonedas: [link](https://cotizadorcrypto-cursoreactbasico.netlify.app/)

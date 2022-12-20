@@ -12,6 +12,9 @@ Pero tambien existe una gran cantidad de herramientas ya disponibles para crear 
 1. Vite
 2. Next.js (TurboPack)
 3. Remix Run
+4. Astro
+5. Hydrogen - Crear tiendas virtuales usando Shopify como Backend y React como Frontend
+6. Docusaurus
 
 ## Otras Opciones ya no tan Utilizadas
 1. Create React App
