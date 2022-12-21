@@ -6,17 +6,18 @@
 
 ## Creacion del Proyecto
 1. Creacion del Proyecto React utilizando VIte por consola (dentro de la carpeta del proyecto): `npm init vite@latest`
-2. Luego de creada la carpeta del Proyecto React con Vite instalar las dependencias (dentro de la carpeta del proyecto): `npm install`
-3. Correr el modo de desarrollo del proyecto: `npm run dev`
+2. Seleccionar opcion de React JavaScript (TypeScript se vera mas adelante)
+3. Luego de creada la carpeta del Proyecto React con Vite instalar las dependencias (dentro de la carpeta del proyecto): `npm install`
+4. Correr el modo de desarrollo del proyecto: `npm run dev`
 
 ## Estructura Basica de un Proyecto de Vite
 En la carpeta de `src` se colocan todos los Componentes de React, Modulos de CSS, Funciones Helpers y los archivos de imagenes, etc.
 
-El Componente `App.jsx` es el Componente Principal del Proyecto, es el que se renderiza en el navegador. De el podemos eliminar el `import './App.css'` junto al archivo CSS, tambien el `import reactLogo from './assets/react.svg'` junto con el archivo de imagen.
+El Componente `App.jsx` es el Componente Principal del Proyecto, es el que se renderiza en el navegador. De el podemos eliminar el `import './App.css'` junto al archivo CSS, tambien el `import reactLogo from './assets/react.svg'` junto con el archivo de imagen y todo lo que se encuentre dentro del `div className="App"`.
 
-El archivo `main.jsx` es el archivo que se renderiza en el navegador, el cual contiene el Componente `App.jsx` el cual lo va a inyectar en el archivo HTML buscando el elemento con ID="root" que se encuentra en el archivo `index.html` y el archivo CSS (`index.css`).
+El archivo `main.jsx` es el archivo que se renderiza en el navegador, el cual contiene el Componente `App.jsx` el cual lo va a inyectar en el archivo HTML buscando el elemento con ID="root" que se encuentra en el archivo `index.html` mediante `document.getElementById('root')).render` y el archivo CSS (`index.css`  del cual podemos borrar su contenido).
 
-En el archivo `index.html` se coloca el archivo `main.jsx` y el archivo CSS (`index.css`) el cual se inserta en el archivo `index.html` por medio de un `<script>` y `<link>` respectivamente.
+En el archivo `index.html` se importa el archivo `main.jsx` el cual se inserta en el archivo `index.html` por medio de un `<script>` y todo el contenido del archivo `main.jsx` (el cual toma el contenido de lo que se encuentre en el `App.jsx`) se inserta en el HTML mediante el DIV `<div id="root"></div>`.
 
 En el archivo .gitignore se colocan todos los archivos que no se quieran subir al repositorio de GitHub.
 
@@ -31,7 +32,7 @@ En la carpeta `node_modules` se colocan todas las dependencias que se instalaron
 ## ¿Qué es JSX?
 JSX son las iniciales de JavaScript Syntax Extension, es una extensión de JavaScript que permite crear Componentes de React.
 
-Es una Extension del Lenguaje de Programación JavaScript, desarrollada por Facebook para React, que permite crear Componentes de React.
+Es una Extension del Lenguaje de Programación JavaScript, desarrollada por Meta para React, que permite crear Componentes de React.
 
 Parece codigo de JavaScript pero muestra codigo de HTML, y basicamente es un lenguaje de Template que muestra el HTML pero tiene todas las funciones de JavaScript.
 
@@ -43,7 +44,7 @@ Una vez compilado (creacion del **bundle** del proyecto) son archivos de JavaScr
 3. Cada Componente debe tener un `return`.
 4. Dentro de cada `return` debe haber maximo un solo elemento en el nivel maximo.
 
-Respecto al punto final para no estar retornando tantos `div` React permite el uso de `Fragments` para retornar un solo elemento sin la necesidad de utilizar divs y generar codigo HTML de mas, se utilizan de la siguiente manera:
+Respecto al punto final para no estar retornando tantos `div` React permite el uso de **Fragments** para retornar un solo elemento sin la necesidad de utilizar divs y generar codigo HTML de mas, se utilizan de la siguiente manera:
 ```jsx
   <>
     <h1>Hola Mundo</h1>
@@ -80,9 +81,9 @@ Por ejemplo:
 ```
 
 ## Creando un Componente y Llamandolo
-Dentro de la carpeta `src` crear una Carpeta Nueva con el nombre de `components` donde vamos a crear el Componente `Header.jsx` y `Formulario.jsx`, los Componentes deben ser nombrados siempre con la Primer Letra en Mayuscula, tanto el archivo como el nombre del componente.
+Dentro de la carpeta `src` crear una Carpeta Nueva con el nombre de `components` donde vamos a crear el Componente `Header.jsx` y `Formulario.jsx`, los Componentes deben ser nombrados siempre con la Primer Letra en Mayuscula, tanto el archivo como el nombre del componente, ya que Babel lo requiere de esta forma para ciertas trasformaciones que se realizan al final, y al estar usando Vite el Componente requiere de la extencion jsx.
 
-Para crear el Componente `Header.jsx` podemos hacer uso de los Snippets provenientes de las extensiones de VSCode que mediante `rafce` (nos crea el componente con la estructura de Function Expression) o `rfce` (nos crea el componente con la estructura de Function Declaration) nos permite crear la estructura basica del Componente de forma automatica. Tambien haciendo uso de la Opcion `auto-import` podemos importar los Componentes que necesitemos, se encuentra en Ctrl+Shift+P.
+Para crear el Componente `Header.jsx` podemos hacer uso de los Snippets provenientes de las extensiones de VSCode que mediante `rafce` (nos crea el **componente con la estructura de Function Expression**) o `rfce` (nos crea el **componente con la estructura de Function Declaration**) nos permite crear la estructura basica del Componente de forma automatica. Tambien haciendo uso de la Opcion `auto-import` podemos importar los Componentes que necesitemos, se encuentra en Ctrl+Shift+P.
 
 Funciona de la Siguiente Manera:
 ```jsx
@@ -112,7 +113,7 @@ Funciona de la Siguiente Manera:
   export default Header;
 ```
 
-## React Developer Tools
+## React Developer Tools - Redux DevTools - React Context DevTool
 React Developer Tools es una extension que nos permite ver el codigo de JavaScript que se esta ejecutando en el navegador, es una herramienta que se encuentra en Navegadores como Firefox Developer Edition, Chrome, etc.
 
 En las pestaña Inspeccionar del Navegador donde se encuentra la Consola, Network, etc. aparece la extension de React Developer Tools donde tenemos dos pestañas:
@@ -123,20 +124,18 @@ En las pestaña Inspeccionar del Navegador donde se encuentra la Consola, Networ
 1. CSS Planmo -> Agregar el CSS de toda la Aplicacion en los Archivos de App.css y de index.css.
 2. Framework CSS -> Utilizar un Framework CSS como Tailwind CSS, Bootstrap, Materialize, etc. mediante el `<link>` en el index.html o mediante instalacion de una dependencia en el proyecto haciendo uso de `npm install --save-dev tailwindcss`.
 3. Modulos CSS -> Es una forma mas propia de React
-4. Por medio de Componentes
+4. Por medio de Componentes a traves de librerias que brindan Componentes con Estilos
 5. SASS
 6. Styled Components -> Se escribe el Codigo CSS de Cada Componente en el mismo archivo del Componente
 
 ## Instalacion de Tailwind CSS
-Para utilizar Tailwind CSS lo vamos a instalar como Dependencia en el Proyecto mediante: `npm install --save-dev tailwindcss` para instalarlo como dependencia de desarrollo unicamente. Tambien instalar PostCSS y AutoPrefixer para que se pueda utilizar el CSS en los navegadores que no soportan las nuevas versiones de CSS y tener un correcto funcionamiento de los CSS.
+Para utilizar Tailwind CSS lo vamos a instalar como Dependencia en el Proyecto mediante: `npm install --save-dev tailwindcss` para instalarlo como **dependencia de desarrollo** unicamente. Tambien instalar **PostCSS y AutoPrefixer para que se pueda utilizar el CSS en los navegadores que no soportan las nuevas versiones de CSS** y tener un correcto funcionamiento de los CSS.
 
 En Consola ejecutamos: `npm i -D tailwindcss postcss autoprefixer`
 
 Tambien necesitamos el archivo de Configuracion de Tailwind CSS y un archivo de Configuarcion de PostCSS y AutoPrefixer:
-
-Para el archivo de Configuracion de Tailwind CSS y PostCSS colocamos en consola: `npx tailwindcss init -p`
-
-Luego en el `index.css` (archivo que se importa en el `main.jsx`) vamos a agregar algunas directivas de TailwindCSS:
+- Para el archivo de Configuracion de Tailwind CSS y PostCSS colocamos en consola: `npx tailwindcss init -p`
+- Luego en el `index.css` (archivo que se importa en el `main.jsx` y todo el CSS se encuentra disponible de forma global en toda la App) vamos a agregar algunas directivas de TailwindCSS:
 ```css
   @tailwind base;
   @tailwind components;
