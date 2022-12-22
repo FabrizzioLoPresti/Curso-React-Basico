@@ -164,9 +164,9 @@ React cuenta con una API muy sencilla que te permite crear todo tipo de aplicaci
 
 Los Hooks estan disponibles desde la version 16.8, previo a ello se tenian que crear **classes** para crear y modificar el State, con los Hooks no es necesario.
 
-Los Hooks son funciones que te permiten “enganchar” el estado de React y el ciclo de vida desde componentes de función.
+Los Hooks son **funciones** que te permiten “enganchar” el estado de React y el ciclo de vida desde componentes de función.
 
-El ciclo de vida se puede dividir en 3 fases, el montado, actualización y desmontado del componente. Estas fases a su vez se dividen en varios métodos que puede tener el componente. Tip: Cada método tiene un prefijo will o did dependiendo de si ocurren antes o después de cierta acción.
+El **ciclo de vida** se puede dividir en 3 fases, el montado, actualización y desmontado del componente. Estas fases a su vez se dividen en varios métodos que puede tener el componente. Tip: Cada método tiene un prefijo will o did dependiendo de si ocurren antes o después de cierta acción.
 
 Los Hooks se dividen en Basicos y en Adicionales.
 
@@ -184,7 +184,7 @@ Los Hooks se dividen en Basicos y en Adicionales.
     6. useDebugValue -> Hook que nos permite crear un valor para la consola.
     7. useImperativeHandle -> Hook que personaliza el valor de instancia que se expone a los componentes padres cuando se usa ref . Como siempre, el código imperativo que usa refs debe evitarse en la mayoría de los casos.
     
-**Tambien es posible crear nuestros propios Hooks**, de esta forma podras separar tu codigo en funciones re-utilizables y sacar todo el beneficio de lo que React ofrece.
+**Tambien es posible crear nuestros propios Hooks** (Custom Hooks), de esta forma podras separar tu codigo en funciones re-utilizables y sacar todo el beneficio de lo que React ofrece.
 
 ## ¿Que es el State en React?
 El State o Estado es basicamente eso, cual es el estado de nuestra aplicacion o componente. Ej: si tenemos un carrito de compras cual es el estado del mismo, tiene elementos, esta vacio, que elementos tiene ese carrito de compras. Si estamos descargando un listado de clientes, ya lo descargue o esta vacio o que es lo que paso.
@@ -204,7 +204,7 @@ Un State se crea de la siguiente forma:
   const [modal, setModal] = useState(false);
 ```
 
-Con esta sintaxis estamos extrayendo el State (variable) y el SetState (funcion) de la funcion useState mediante Array Destructuring.
+Con esta sintaxis estamos extrayendo el State (variable) y el SetState (funcion) de la funcion useState que retorna un Arreglo, mediante Array Destructuring.
 
 - useState() -> Funcion que nos permite crear un State.
 - cliente -> Variable que contiene el valor del State.
@@ -214,7 +214,7 @@ Con esta sintaxis estamos extrayendo el State (variable) y el SetState (funcion)
 Se pueden tener multiples useState dentro del mismo Componente.
 
 ## React reacciona en Base al State
-Cada vez que el State cambia, tu aplicacion de React se va a renderizar de nuevo y actualizarse en base a esos cambios.
+React reacciona en base al State, cada vez que el State cambia, tu aplicacion de React se va a renderizar de nuevo y actualizarse en base a esos cambios.
 
 Para modificar el State se utiliza la funcion de setState() que extraemos cuando declaramos el State en nuestro componente.
 
@@ -223,9 +223,9 @@ Para modificar el State se utiliza la funcion de setState() que extraemos cuando
 - No se pueden colocar dentro de condicionales, tampoco despues de un return.
 
 ## Leyendo la Informacion escrita en un Input y colocandola en el State
-Lo que demos hacer para leer la informacion escrita en el Input es primero crear un State donde la vamos a almacenar, segundo pasar el valor inicial del State al Input donde queremos leer por medio del value y almacenar el valor y tercero debemos utilizar el evento onChange proporcionado por React que nos permite ver que escribe en tiempo real el usuario dentro del Input, de esta forma a medida que el Usuario escribe en el Input estos valores se pasan por parametro mediante la funcion setNombre que le asigna el valor de lo que escribio el Usuario a la variable del State nombre y de esta forma al mismo tiempo dicho valor se muestra dentro del Input ya que el value que tiene asignado es igual al valor de la variable Nombre, por ende a medida que se modifica con lo que escribe el usuario, dicho valor se actualiza y por medio del value se muestra dentro del Input, esto se debe a que React renderiza de nuevo el componente cada vez que se modifica el State del mismo.
+Lo que demos hacer para leer la informacion escrita en el Input es: primero crear un State donde vamos a almacenar la informacion, segundo pasar el valor inicial del State al Input donde queremos leer por medio del value y almacenar el valor y tercero debemos utilizar el evento onChange proporcionado por React que nos permite ver que escribe en tiempo real el usuario dentro del Input, de esta forma a medida que el Usuario escribe en el Input estos valores se pasan por parametro mediante la funcion setNombre que le asigna el valor de lo que escribio el Usuario a la variable del State nombre y de esta forma al mismo tiempo dicho valor se muestra dentro del Input ya que el value que tiene asignado es igual al valor de la variable Nombre, por ende a medida que se modifica con lo que escribe el usuario, dicho valor se actualiza y por medio del value se muestra dentro del Input, esto se debe a que React renderiza de nuevo el componente cada vez que se modifica el State del mismo.
 
-Es decir nombre='' comienza como vacio, es por esto que en el Input no hay nada y por mas que escribamos no vamos a ver nada pq tiene definido un value=''. Por lo que debemos utilizar el evento onChange proporcionado por React para poder tomar en tiempo real lo que el Usuario escribe dentro del Input. Se toma el valor de lo que el Usuario escribe y se lo asigna a la variable nombre='' de nuestro State por medio de su funcion de setNombre() logrando asi que la variable nombre pase a tener como valor lo que escribio el Usuario quedando asi: nombre='Juan'. Debido al funcionamiento de React que se rerenderiza al modificarse un State dentro de un Componente, al modificarse el State de la Variable Nombre este se rerenderiza y asigna como value en el Input el nuevo valor de la variable nombre y de esta forma el Usuario puede visualizarlo en pantalla.
+Es decir nombre='' comienza como vacio, es por esto que en el Input no hay nada y por mas que escribamos no vamos a ver nada pq tiene definido un value=''. Por lo que debemos utilizar el evento onChange proporcionado por React para poder tomar en tiempo real lo que el Usuario escribe dentro del Input. Se toma el valor de lo que el Usuario escribe y se lo asigna a la variable nombre='' de nuestro State por medio de su funcion de setNombre(), logrando asi que la variable nombre pase a tener como valor lo que escribio el Usuario quedando asi: nombre='Juan'. Debido al funcionamiento de React que se rerenderiza al modificarse un State dentro de un Componente, al modificarse el State de la Variable Nombre este se rerenderiza y asigna como value en el Input el nuevo valor de la variable nombre y de esta forma el Usuario puede visualizarlo en pantalla.
 
 1. La Variable Nombre inicializa como nombre=''
 2. Este valor vacio se asigna al value={nombre} de nuestro Input que quedaria como value=''
@@ -321,6 +321,7 @@ Posteriormente en la validacion del Formulario cambiarlo a True, para que al mom
 ```jsx
   const handleSubmit = e => {
     e.preventDefault();
+    // if([nombre, propietario, email, fecha, sintomas].includes('')) return setError(true)
     if ([nombre.trim(), apellido.trim()].includes('')) {
       setError(true);
       return;
@@ -352,28 +353,25 @@ Debido a que si este valor de la Variable del State cambia React rerenderiza la 
 ## Pasando Informacion entre Componentes con Props
 Los Props son una forma de pasar Variables o Funciones de un Componente a otro.
 - El State o Funciones que crees en tus Componentes, solo estaran disponibles en ese Componente.
-- Una forma de evitar duplicar codigo y reutilizar esas Variables, State o Estado y Funciones en otros Componentes es por medio de Props o Propieades.
+- Una forma de evitar duplicar codigo y reutilizar esas Variables, State o Estado y Funciones en otros Componentes es por medio de Props o Propiedades.
 - Los Props se pasan del padre al hijo, nunca se pueden pasar del hijo al padre.
 
 Debido a que los Props se pasan del Padre al Hijo, lo mejor es que si tienes un State que se va a pasar por diferentes Componentes, lo mejor es colocarlo en el Archivo Principal (App.jsx).
 
 Cada Nivel de Componentes debera tomar y pasar el Prop hacia otros Componentes, tecnologias como **Redux**, **Redux Toolkit**, o **Context API** evitan tener que hacerlo de esta forma.
 
-En el Componente Principal de App.jsx creamos un Arreglo de Pacientes que se encargue de almacenar los pacientes. Se crea en el Componente Principal de App.jsx para facilitar el traspaso del arreglo a lo largo de los diferentes componentes, al igual que la funcion de setPacientes y otras funciones para poder agregar nuevos pacientes, eliminar pacientes, etc.
+En el Componente Principal de App.jsx creamos un Arreglo de Pacientes que se encargue de almacenar los pacientes. Se crea en el Componente Principal de App.jsx para facilitar el traspaso del arreglo a lo largo de los diferentes componentes (el Arreglo de Pacientes a ListadoPacientes para listarlo y la Funcion setPacientes al Formulario para agregar los Pacientes Nuevos), al igual que la funcion de setPacientes y otras funciones para poder agregar nuevos pacientes, eliminar pacientes, etc.
 
+### Sintaxis de los Props
 En App.jsx
+Pasar Datos al Componente:
 ```jsx
   const [pacientes, setPacientes] = useState([]);
-
   // Para pasar un Valor del Hijo al Padre
   const toma1Valor = (valor) => {
     console.log(valor);
   }
-```
 
-### Sintaxis de los Props
-Pasar Datos al Componente:
-```jsx
   <Componente 
     nombreProp={Datos o Funciones}
     pacientes={pacientes}
@@ -383,6 +381,7 @@ Pasar Datos al Componente:
     toma1Valor={toma1Valor}
   />
 ```
+
 Recibir Datos en el Componente:
 ```jsx
   const Componente = ({nombreProp, pacientes, admin, setPacientes, titulo, toma1Valor}) => {

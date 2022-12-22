@@ -1,15 +1,57 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
+import Alerta from './Alerta'
 
-const Formulario = () => {
+const Formulario = ({pacientes, setPacientes}) => {
+
+  const [nombre, setNombre] = useState('')
+  const [propietario, setPropietario] = useState('')
+  const [email, setEmail] = useState('')
+  const [fecha, setFecha] = useState('')
+  const [sintomas, setSintomas] = useState('')
+  const [error, setError] = useState(false)
+
+  const handleSubmit = e => {
+    e.preventDefault()
+
+    // Validacion del Formulario
+    if([nombre, propietario, email, fecha, sintomas].includes('')) return setError(true)
+
+    // Objeto de Paciente
+    const paciente = {
+      nombre,
+      propietario,
+      email,
+      fecha,
+      sintomas
+    }
+
+    setError(false)
+    setPacientes([...pacientes, paciente]) // Spread Operator
+    limpiarForm()
+  }
+
+  const limpiarForm = () => {
+    setNombre('')
+    setPropietario('')
+    setEmail('')
+    setFecha('')
+    setSintomas('')
+    setError(false)
+  }
+
   return (
-    <div className='md:w-1/2 lg:w-2/5'>
+    <div className='md:w-1/2 lg:w-2/5 mx-5'>
       <h2 className='font-black text-3xl text-center'>Seguimiento Pacientes</h2>
       <p className='text-lg mt-5 mb-10 text-center'>
         Agrega Pacientes y {''}
         <span className='font-bold text-indigo-600'>Administralos</span>
       </p>
 
-      <form className='bg-white shadow-md rounded-lg py-10 px-5 mb-10'>
+      <form 
+        className='bg-white shadow-md rounded-lg py-10 px-5 mb-10'
+        onSubmit={handleSubmit}
+      >
+        {error && <Alerta />}
         <div className="campo mb-5">
           <label 
             htmlFor="mascota" 
@@ -23,6 +65,8 @@ const Formulario = () => {
             name="mascota" 
             id="mascota" 
             className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md'
+            value={nombre} // Expresion de JavaScript - Expression
+            onChange={e => setNombre(e.target.value)}
           />
         </div>
 
@@ -39,6 +83,8 @@ const Formulario = () => {
             name="propietario" 
             id="propietario" 
             className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md'
+            value={propietario}
+            onChange={e => setPropietario(e.target.value)}
           />
         </div>
 
@@ -55,6 +101,8 @@ const Formulario = () => {
             name="email" 
             id="email" 
             className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md'
+            value={email}
+            onChange={e => setEmail(e.target.value)}
           />
         </div>
 
@@ -70,6 +118,8 @@ const Formulario = () => {
             name="alta" 
             id="alta" 
             className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md'
+            value={fecha}
+            onChange={e => setFecha(e.target.value)}
           />
         </div>
 
@@ -85,6 +135,8 @@ const Formulario = () => {
             id="sintomas" 
             className='border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md resize-none'
             placeholder='Describe los sintomas'
+            value={sintomas}
+            onChange={e => setSintomas(e.target.value)}
           />
         </div>
 
