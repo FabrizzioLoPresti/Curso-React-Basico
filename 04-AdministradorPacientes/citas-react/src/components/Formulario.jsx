@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import Alerta from './Alerta'
 
-const Formulario = ({pacientes, setPacientes}) => {
+const Formulario = ({pacientes, setPacientes, paciente}) => {
 
   const [nombre, setNombre] = useState('')
   const [propietario, setPropietario] = useState('')
@@ -9,6 +9,10 @@ const Formulario = ({pacientes, setPacientes}) => {
   const [fecha, setFecha] = useState('')
   const [sintomas, setSintomas] = useState('')
   const [error, setError] = useState(false)
+
+  useEffect(() => {
+    
+  }, [paciente])
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -18,6 +22,7 @@ const Formulario = ({pacientes, setPacientes}) => {
 
     // Objeto de Paciente
     const paciente = {
+      id: generarId(),
       nombre,
       propietario,
       email,
@@ -28,6 +33,12 @@ const Formulario = ({pacientes, setPacientes}) => {
     setError(false)
     setPacientes([...pacientes, paciente]) // Spread Operator
     limpiarForm()
+  }
+
+  const generarId = () => {
+    const random = Math.random().toString(36).substring(2, 5)
+    const fecha = Date.now().toString(36)
+    return random + fecha
   }
 
   const limpiarForm = () => {
@@ -51,7 +62,9 @@ const Formulario = ({pacientes, setPacientes}) => {
         className='bg-white shadow-md rounded-lg py-10 px-5 mb-10'
         onSubmit={handleSubmit}
       >
-        {error && <Alerta />}
+        {error && <Alerta>
+            <p>Todos los campos son obligatorios</p>
+        </Alerta>}
         <div className="campo mb-5">
           <label 
             htmlFor="mascota" 

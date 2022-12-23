@@ -430,7 +430,7 @@ El Componente que envia datos al Componente que contiene el {children}:
 ```
 
 ## Iterando sobre un Array en React
-El mas utilizado de todos los iteradores es .map() ya que sirve para iterar en un arreglo pero tambien te retorna uno nuevo. Como estamos dentro de un `return` del Componente queremos que lo retorne en pantalla. Si utilizamos un ForEach no va a funcionar, no va a mostrar nada en pantalla porque no se va a retornar nada.
+El mas utilizado de todos los **iteradores es .map() ya que sirve para iterar en un arreglo pero tambien te retorna uno nuevo**. Como estamos dentro de un `return` del Componente queremos que lo retorne en pantalla. **Si utilizamos un ForEach no va a funcionar, no va a mostrar nada en pantalla porque no se va a retornar nada**.
 
 ```jsx
   const Componente = ({pacientes}) => {
@@ -453,7 +453,7 @@ Si un componente padre en React cambia (digamos, porque su estado o accesorios c
 La función Context de React parece ser la herramienta de administración de estado favorita de todos (algo para lo que no fue construida en absoluto). Todo es muy conveniente: simplemente envuelva el componente superior en el proveedor de contexto, ¡y el resto es muy sencillo! La mayoría de las aplicaciones de React se están construyendo así, pero si ha leído este artículo hasta ahora, probablemente haya detectado lo que está mal. Sí, cada vez que se actualiza el objeto de contexto, desencadena una nueva representación masiva de todos los componentes del árbol.
 La mayoría de las aplicaciones no tienen conciencia de rendimiento, por lo que nadie se da cuenta, pero como se dijo antes, tales descuidos pueden ser muy costosos en aplicaciones de alto volumen y alta interacción.
 
-Aquellos que aman el mundo rápido y sucio de Context tienden a odiar **Redux**, pero esta cosa es muy popular por buenas razones. Y una de estas razones es el rendimiento: el connect() La función en Redux es mágica ya que (casi siempre) representa correctamente solo aquellos componentes según sea necesario. Sí, simplemente siga la arquitectura estándar de Redux y el rendimiento es gratis. No es una exageración en absoluto que si adopta la arquitectura Redux, evita la mayoría de los problemas de rendimiento (y otros) de inmediato.
+Aquellos que aman el mundo rápido y sucio de Context tienden a odiar **Redux**, pero esta cosa es muy popular por buenas razones. Y una de estas razones es el rendimiento: el connect() La función en Redux es mágica ya que (casi siempre) representa correctamente solo aquellos componentes según sea necesario. Sí, **simplemente siga la arquitectura estándar de Redux y el rendimiento es gratis**. No es una exageración en absoluto que si adopta la **arquitectura Redux**, evita la mayoría de los problemas de rendimiento (y otros) de inmediato.
 
 Utilizar memo() para evitar la renderizacion excesiva de un Componente cada vez que se actualizan sus State. Debido al funcionamiento de React cada vez que se modifica el State de un Componente este se rerenderiza, por lo tanto si tenemos un boton que cuenta clicks mediante una Variable definida con useState() el Componente se va a renderizar nuevamente por cada click ya que se modifica el State de la Variable provocando que se rerenderice el Componente. Con memo() el Componente se renderiza solo una vez y no se rerenderiza mas de una vez, unicamente cuando se crea.
 ```jsx
@@ -510,7 +510,7 @@ Podemos utilizar el Hook de useId(), pero se han encontrado multiples problemas 
 Tambien podemos generar nuestro propio Metodo en Formulario.jsx para la creacion de IDs de cada Paciente que se crea:
 ```jsx
   const generarId = () => {
-    const random = Math.random().toString(36).substr(2);
+    const random = Math.random().toString(36).substring(2, 5)
     const fecha = Date.now().toString(36);
     return random + fecha;
   }
@@ -619,7 +619,10 @@ Se pueden llamar de la siguiente manera:
 ## El Hook useEffect()
 Desde el App.jsx le vamos a pasar el Objeto de Paciente a Formulario.jsx para cargar los datos en el Formulario cuando el Objeto contenga algo.
 
-Utilizamos el Hook useEffect() porque: cada vez que se ingresa un dato por teclado en el formulario se realiza una rerenderizacion debido a que estamos detectando en tiempo real (mediante el Evento onChange() de React) lo que el usuario ingresa por teclado y se almacena en los States correspondientes a medida que escribe, esto provoca que cambie el valor de la Variable del State cada vez que el usuario escribe en el Input produciendo multiples rerenderizaciones innecesarias, ya que carga el Componente Multiples Veces cada vez que se ingresa un dato por teclado.
+Utilizamos el Hook useEffect() porque: 
+- Cada vez que se ingresa un dato por teclado en el formulario se realiza una rerenderizacion debido a que estamos detectando en tiempo real (mediante el Evento onChange() de React) lo que el usuario ingresa por teclado y se almacena en los States correspondientes a medida que escribe, esto provoca que cambie el valor de la Variable del State cada vez que el usuario escribe en el Input produciendo multiples rerenderizaciones innecesarias, ya que carga el Componente Multiples Veces cada vez que se ingresa un dato por teclado.
+- Por ello aplicamos un useEffect sobre el State de Paciente para detectar unicamente cuando este cambie, y no sobre cada rerenderizacion que se realice debido al Evento OnChange que detecta en forma constante lo que el usuario escribe por teclado y se almacena a medida que escribe en su State correspondiente, lo cual provoca que cambie el State de la Variable causando una rerenderizacion del Componente de Formulario lo cual ademas permite que se muestre el valor de cada Variable dentro del value correspondiente de cada Input.
+- Por ende mediante este UseEffect en Formulario frenamos cada renderizacion del State de Paciente hasta que este cambie de verdad al cargarle un dato, al momento en el que el UseEffect detecte que el State de Paciente cambio, se va a encargar de cargar los datos del Paciente en los States correspondientes de los datos y por consiguiente cargar los datos dentro del Formulario. Si el State de Paciente en Formulario cambia, es detectado por el UseEffect el cual ejecuta un re-render del Componente de Formulario.
 
 Solucion a tantas rerenderizaciones innecesarias: [link](https://geekflare.com/es/react-rendering/)
 
@@ -629,8 +632,8 @@ React al notar un cambio en el State de la Variable Paciente de App.jsx se va a 
 - useEffect siempre es un callback (siempre voy a tener un Arrow Function dentro de el), que se ejecuta cuando un State cambia o cuando el Componente esta listo.
 
 #### Usos de useEffect()
-- Debido a que useEffect se ejecuta automaticamente cuando el Componente esta listo, es un excelente lugar para colocar codigo para consultar una API o LocalStorage.
-- Debido a que le podemos pasar una dependencia y estar escuchando por los cambios que sucedan en el State de una Variable, puede actulizar el Componente cuando ese cambio suceda.
+- Debido a que useEffect **se ejecuta automaticamente cuando el Componente esta listo**, es un excelente lugar para colocar codigo para consultar una API o LocalStorage.
+- Debido a que le podemos pasar una dependencia y **estar escuchando por los cambios que sucedan en el State de una Variable**, puede actulizar el Componente cuando ese cambio suceda.
 
 Sintaxis:
 ```jsx
