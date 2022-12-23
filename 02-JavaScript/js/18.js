@@ -30,6 +30,24 @@ console.log( resultado )
 // Reduce -> Devuelve un valor que es el resultado de la operación que especifiquemos entre todos los elementos del arreglo, podemos usar para Acumular resultado o Total
 resultado = numeros.reduce((acum, nro) => acum + nro, 0)
 console.log( resultado )
+const tareas = [
+  { nombre: "Regar las plantas", prioridad: "A" },
+  { nombre: "Comprar el pan", prioridad: "В" },
+  { nombre: "Enviar e-mails", prioridad: "A" },
+  { nombre: "Poner la lavadora", prioridad: "С" },
+  { nombre: "Cargar el móvil", prioridad: "В" },
+  { nombre: "Limpiar la cocina", prioridad: "A" },
+]
+const final = tareas.reduce((obj, tarea) => {
+  console.log({ tarea });
+  if(!obj[tarea.prioridad]) {
+    obj[tarea.prioridad] = []
+  }
+  obj[tarea.prioridad].push(tarea.nombre)
+  return obj // pasa a la siguiente iteracion
+}, {})
+console.log({ final })
+
 
 // ForEach -> Ejecuta una función por cada elemento del arreglo (utilizar unicamente para iterar)
 tecnologias.forEach((tech, index) => console.log(`${index} - ${tech}`))

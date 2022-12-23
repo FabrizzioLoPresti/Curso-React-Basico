@@ -379,6 +379,24 @@ Tambien si pasamos un unico parametro, podemos eliminar los parentesis.
 6. **Reduce** -> Devuelve un valor que es el resultado de la operación que especifiquemos entre todos los elementos del arreglo
 ```js
   const resultado = numeros.reduce((acumulador, numero) => acumulador + numero, 0); // 55
+  resultado = numeros.reduce((acum, nro) => acum + nro, 0)
+  const tareas = [
+    { nombre: "Regar las plantas", prioridad: "A" },
+    { nombre: "Comprar el pan", prioridad: "В" },
+    { nombre: "Enviar e-mails", prioridad: "A" },
+    { nombre: "Poner la lavadora", prioridad: "С" },
+    { nombre: "Cargar el móvil", prioridad: "В" },
+    { nombre: "Limpiar la cocina", prioridad: "A" },
+  ]
+  const final = tareas.reduce((obj, tarea) => {
+    console.log({ tarea });
+    if(!obj[tarea.prioridad]) {
+      obj[tarea.prioridad] = []
+    }
+    obj[tarea.prioridad].push(tarea.nombre)
+    return obj // pasa a la siguiente iteracion
+  }, {})
+  console.log({ final })
 ```
 7. **ForEach** -> Ejecuta una función por cada elemento del arreglo (utilizar unicamente para iterar)
 ```js
