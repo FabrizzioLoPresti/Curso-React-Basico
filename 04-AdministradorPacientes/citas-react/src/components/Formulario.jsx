@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import Alerta from './Alerta'
 
-const Formulario = ({pacientes, setPacientes, paciente}) => {
+const Formulario = ({pacientes, setPacientes, paciente, setPaciente}) => {
 
   const [nombre, setNombre] = useState('')
   const [propietario, setPropietario] = useState('')
@@ -11,7 +11,13 @@ const Formulario = ({pacientes, setPacientes, paciente}) => {
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    
+    if(Object.keys(paciente).length > 0) {
+      setNombre(paciente.nombre)
+      setPropietario(paciente.propietario)
+      setEmail(paciente.email)
+      setFecha(paciente.fecha)
+      setSintomas(paciente.sintomas)
+    }
   }, [paciente])
 
   const handleSubmit = e => {
@@ -21,8 +27,7 @@ const Formulario = ({pacientes, setPacientes, paciente}) => {
     if([nombre, propietario, email, fecha, sintomas].includes('')) return setError(true)
 
     // Objeto de Paciente
-    const paciente = {
-      id: generarId(),
+    const objetoPaciente = {
       nombre,
       propietario,
       email,
@@ -30,8 +35,19 @@ const Formulario = ({pacientes, setPacientes, paciente}) => {
       sintomas
     }
 
+    // Objeto con los datos del Paciente a Editar
+    if(paciente.id) {
+      // Editando
+      objetoPaciente.id = paciente.id
+      const pacientesActualizados = pacientes.map(pacienteState => pacienteState.id === objetoPaciente.id ? objetoPaciente : pacienteState)
+      setPacientes(pacientesActualizados)
+      setPaciente({})
+    } else {
+      // Nuevo registro
+      objetoPaciente.id = generarId()
+      setPacientes([...pacientes, objetoPaciente]) // Spread Operator
+    }
     setError(false)
-    setPacientes([...pacientes, paciente]) // Spread Operator
     limpiarForm()
   }
 
@@ -155,7 +171,7 @@ const Formulario = ({pacientes, setPacientes, paciente}) => {
 
         <input 
           type="submit" 
-          value="Agregar Paciente"
+          value={paciente.id ? 'Editar Paciente' : 'Agregar Paciente'}
           className='bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-all'
         />
       </form>

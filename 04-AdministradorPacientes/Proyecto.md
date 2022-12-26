@@ -660,18 +660,29 @@ Para verificar cambio en el State de una Variable (se ejecuta cada vez que el St
 ```
 
 ## Colocando en el State el Paciente a Editar
-Luego de detectar en Formulario.jsx si el Objeto de Paciente cambia o no al hacer click en editar, debemos validar dentro del mismo useEffect() que el Objeto tenga algo, debido a que se ejecuta una vez al detectar la creacion del objeto por lo tanto debemos validar que el Objeto tenga algo.
+Luego de detectar en Formulario.jsx si el Objeto de Paciente cambia o no al hacer click en editar, debemos validar dentro del mismo useEffect() que el Objeto tenga algo, debido a que se ejecuta una vez al detectar la creacion del objeto el cual esta vacio (useState({})) por lo tanto debemos validar que el Objeto tenga algo.
 
-Procedemos luego de la validaciona llenar los campos del formulario mediante las funciones set de cada una de las variables, el Componente de Formulario.jsx al detectar los cambios en el State de las variables, se va a renderizar el Formulario.jsx y se va a cargar con los datos del Paciente que seleccionamos pasando los datos de las Variables como value a los Inputs.
+Procedemos luego de la validacion a llenar los campos del formulario mediante las funciones set de cada una de las variables, el Componente de Formulario.jsx al detectar los cambios en el State de las variables, se va a renderizar el Formulario.jsx y se va a cargar con los datos del Paciente que seleccionamos pasando los datos de las Variables como value a los Inputs.
 
 1. Crear un nuevo State de Paciente en App.jsx para que se pueda editar donde vamos a almacenar el Objeto del Paciente a Editar para poder pasar la funcion de setPaciente() al Listado.jsx y luego a Paciente para agregarla al Boton y la Variable de Paciente a Formulario.jsx para cargar los datos del Objeto en los States de Formulario para que se muestren en pantalla.
 2. Agregar evento onClick() en cada uno de los Pacientes (Componente Paciente.jsx) de modo que al hacer click en el Boton editar se ejecute la funcion setPaciente() de App.jsx y se cargue el Objeto del Paciente a Editar en el State de Paciente del App.jsx.
 3. Desde el App.jsx pasar el Objeto Paciente del State de App.jsx al Formulario.jsx para cargar los datos.
-4. Mediante el uso del Hook useEffect() verificar si el Objeto Paciente del State de App.jsx cambio o no al hacer click en editar, si cambio se va a renderizar el Formulario.jsx y se va a cargar con los datos del Paciente que seleccionamos, validando que el Objeto tenga algo.
-5. Todo se renderiza automaticamente debido a los cambios que se producen en los States de las Variables, excepto el State de Paciente que renderiza el Formulario.jsx solo cuando cambio el valor del Objeto Paciente al hacer click en editar, el cual lo controlamos por medio de un useEffect() para renderizar el Componente de Fromulario solo cuando el Objeto Paciente del State de App.jsx cambie y tenga algo.
+4. Mediante el uso del Hook useEffect() verificar si el State del Objeto Paciente de App.jsx cambio o no al hacer click en editar, si cambio se va a renderizar el Formulario.jsx y se va a cargar con los datos del Paciente que seleccionamos, validando que el Objeto tenga algo.
+5. Todo se renderiza automaticamente debido a los cambios que se producen en los States de las Variables, excepto el State de Paciente que renderiza el Formulario.jsx solo cuando cambio el valor del Objeto Paciente al hacer click en editar, el cual lo controlamos por medio de un useEffect() para renderizar el Componente de Fromulario solo cuando el Objeto Paciente del State de App.jsx cambie y tenga algo y no cuando este se cree vacio (useState({})).
+
+```jsx
+  useEffect(() => {
+    if(Object.keys(paciente).length > 0) {
+      setNombre(paciente.nombre)
+    }
+  }, [paciente])
+```
+Primero se hace click en el Boton Editar lo cual llena el Objeto Paciente del App.jsx mediante la Funcion de setPaciente(). Luego en Formulario.jsx detectamos mediante el Hook useEffect() un cambio en el State de la Variable Paciente (que es cuando este se crea o se le cargan datos, modificandose su State en ambos casos) y posteriormente validamos que no este vacio, es decir que se haya modificado pq se agregaron datos y no pq se creo por primera vez. Luego tomamos los valores del Objeto Paciente y los seteamos a las Variables del Formulario, lo cual produce un cambio en el State de las Variables definidas en Formulario.jsx, provocando este cambio en el State de las Variables que el Componente se rerenderice nuevamente y se cargue en los Inputs los Values correspondientes a los valores que se setearon en las Variables.
 
 ## Mostrando de Forma Condicional Textos en el Formulario
 Para cambiar el Mensaje que se muestra en el Boton segun estemos Agregando un Paciente o Editando un Paciente mediante una Comprobacion muy sencilla utilizando el ID del Paciente en el Objeto Paciente que pasamos desde el App.jsx. Por lo tanto  si la Propiedad ID del Objeto Paciente existe es porque hay un Paciente cargado listo para editar en cambio si no hay paciente cargado es porque estamos creando un Nuevo Paciente.
+
+Si en el Objeto Paciente del App.jsx hay datos cargados y existe un ID es pq estamos Editando, si no existe un ID en el Objeto de Editar es pq estamos creando un Nuevo Registro.
 ```jsx
   value={paciente.id ? 'Editar Paciente' : 'Agregar Paciente'}
 ```
@@ -681,7 +692,7 @@ Debemos solucionar la Problematica de que al Cargar el Paciente para Editar y ha
 
 Realizamos una Comprobacion nuevamente por `paciente.id` de modo que si existe esa propiedad en el Objeto Paciente pasado por Props es que estamos por Editar un Paciente, en caso contrario estamos agregando un Nuevo Paciente.
 
-El ObjetoPaciente se crea sin ningun ID, para que en el caso de que el Objeto Paciente pasado por Props no tenga ningun ID, se creara uno nuevo. Y si el Objeto Paciente pasado por Props tiene un ID luego ese ID se lo agregamos al ObjetoPaciente para que se pueda editar.
+Para solucionarlo el ObjetoPaciente (el que creamos en el Formulario.jsx con los Valores ingresados en los Inputs dentro de la Funcion handleSubmit) se crea sin ningun ID, para que en el caso de que el Objeto Paciente pasado por Props no tenga ningun ID (paciente.id - Objeto de Paciente a Editar) en el caso de que el objeto Paciente a Editar este VACIO, se creara uno nuevo. Y si el Objeto Paciente pasado por Props tiene un ID (paciente.id - Objeto de Paciente a Editar) ya que se cargaron DATOS en el Objeto de Paciente a Editar, luego ese ID se lo agregamos al ObjetoPaciente para que se pueda editar.
 ```jsx
   // Objeto de Paciente construido con los States del Formulario
   const objetoPaciente = {
@@ -703,7 +714,23 @@ El ObjetoPaciente se crea sin ningun ID, para que en el caso de que el Objeto Pa
     objetoPaciente.id = generarId();
     setPacientes([...pacientes, objetoPaciente]);
   }
+  setError(false)
+  limpiarForm()
 ```
+
+~~~
+El objeto Paciente pasado por Props al Componente de Formulario es el que tiene los datos cargados del Paciente a Editar que se cargan al momento de hacer click en el Boton Editar mediante la funcion de setPaciente() cargandolo en el State de la Variable paciente la cual se pasa a Formulario.jsx por medio de Props. 
+
+Por ende si no hay un Registro para Editar el Objeto de Paciente se mantiene vacio sin ningun dato, por eso verificamos por paciente.id, ya que si no hay nada para Editar la propiedad ID de paciente no existe. 
+
+En cambio si cargamos un paciente a Editar en el State de Paciente, si existe la Propiedad ID en paciente por ende nos encontramos frente a una Edicion. 
+
+Por lo que debemos generar un ID nuevo solo en el caso de que el paciente.id no exista, es decir nos encontremos frente a una creacion de un nuevo registro. 
+
+Si estamos editando debemos agregar el ID de paciente (objeto a editar pasado por Props desde el App.jsx a Formulario.jsx) al ObjetoPaciente creado en el Formulario.jsx en la Funcion de handleSubmit() el cual va a tener los datos ACTUALIZADOS de lo que se haya ingresado a los Inputs, luego recorremos los Pacientes y sobreescribimos el paciente a Editar, por ultimo seteamos el State del Objeto de Paciente a Editar a {}. 
+
+Si no existe el ID porque no estamos Editando y por ende no hay datos cargados en el Objeto Paciente pasado por Props, entonces debemos generar un ID para el ObjetoPaciente el cual tiene los datos de los Values de los Inputs en base a los States y posteriormente agregar el Nuevo Registro al Arreglo de Pacientes.
+~~~
 
 ObjetoPaciente se llena tomando los Valores que tienen las Variables del State definidas para el Componente de Formulario al momento de hacer click en el Boton y Ejecutar la funcion de handleSubmit() del Formulario.jsx. 
 
@@ -717,10 +744,10 @@ React al detectar el cambio en el State de Pacientes se renderiza automaticament
 
 ## Eliminar un Paciente
 Para Eliminar un Paciente tenemos los Pacientes en el Arreglo en el App.jsx y el Boton de Eliminar se encuentra en el Paciente.jsx por lo que tenemos dos opciones:
-- Pasar el State de Pacientes y la Funcion desde el App.jsx hasta el Componente de ListadoPacientes.jsx y luego pasarlo al Componente de Paciente.
+- Pasar el State de Pacientes y la Funcion de setPacientes() desde el App.jsx hasta el Componente de ListadoPacientes.jsx y luego pasarlo al Componente de Paciente.jsx.
 - Pasar una Funcion desde el App.jsx que tome el ID al cual le estamos dando click en Paciente y eliminarlo desde el App.jsx.
 
-Debemos pasar la Funcion desde el App.jsx, al ListadoPacientes.jsx y desde ahi al Componente de Paciente.jsx por medio de los Props, para agregarle dicha funcion al Evento onClick() del Boton de Eliminar para que al hacer click en el Boton se envie por medio de parametros el ID del Paciente que seleccionamos para eliminarlo. Este ID llega a la funcion del App.jsx y mediante el Array Method .filter() se filtra el Arreglo de Pacientes y nos retorna un Arreglo de Pacientes con los Pacientes que no tengan el ID que seleccionamos para eliminarlo, es decir Retorna todo aquel Objeto el cual su Id no coincida con la ID pasada por parametro a la funcion. Si el Id coincide no la retorna, solo retorna todos los elementos con Id distinto al pasado por parametro.
+Debemos pasar la Funcion desde el App.jsx, al ListadoPacientes.jsx y desde ahi al Componente de Paciente.jsx por medio de los Props, para agregarle dicha funcion al Evento onClick() del Boton de Eliminar para que al hacer click en el Boton se envie por medio de parametros el ID del Paciente que seleccionamos para eliminarlo. Este ID llega a la funcion del App.jsx y mediante el Array Method .filter() se filtra el Arreglo de Pacientes y nos retorna un Arreglo de Pacientes con los Pacientes que no tengan el ID que seleccionamos para eliminarlo, es decir Retorna todo aquel Objeto el cual su ID no coincida con la ID pasada por parametro a la funcion. Si el ID coincide no la retorna, solo retorna todos los elementos con ID distinto al pasado por parametro.
 
 En el App.jsx:
 ```jsx
@@ -774,7 +801,7 @@ Cada vez que haya cambios en el State del Arreglo de Pacientes o cuando el Compo
     localStorage.setItem('pacientes', JSON.stringify(pacientes))
   }, [pacientes]);
 ```
-Este codigo se ejecuta cada vez que ocurra un cambio en el State de Pacientes o cuando el Componente de App.jsx este listo, por lo tanto al iniciar la Aplicacion tenemos el State del Arreglo de Pacientes vacio, por ende el useEffect al escuchar por cambios en el Arreglo de Pacientes o cuando el Componente esta listo, al iniciar la Aplicacio y detectar que el Compoenente esta lista se ejecuta, teniendo el State del Arreglo de Pacientes vacio, de modo que almacena en el LocalStorage el Arreglo de Pacientes vacio cada vez que recargamos la Aplicacion, sobreescribiendo el Arreglo de Pacientes que tengamos almacenado en el LocalStorage antes de recargar la Aplicacion.
+Este codigo se ejecuta cada vez que ocurra un cambio en el State de Pacientes o cuando el Componente de App.jsx este listo, por lo tanto al iniciar la Aplicacion tenemos el State del Arreglo de Pacientes vacio, por ende el useEffect al escuchar por cambios en el Arreglo de Pacientes o cuando el Componente esta listo, al iniciar la Aplicacion y detectar que el Compoenente esta lista se ejecuta, teniendo el State del Arreglo de Pacientes vacio, de modo que almacena en el LocalStorage el Arreglo de Pacientes vacio cada vez que recargamos la Aplicacion, sobreescribiendo el Arreglo de Pacientes que tengamos almacenado en el LocalStorage antes de recargar la Aplicacion.
 
 ## Finalizando la Funcionalidad de LocalStorage
 Para solucionar el problema anterior creamos un segundo useEffect el cual se va a ejecutar una unica vez cuando el Componente este listo y este va a ser el encargado ed descargar los datos almacenados en el LocalStorage y cargarlos en el State del Arreglo de Pacientes. Lo cual de nuevo, al Producirse un cambio en el State del Arreglo de Pacientes se va a producir la rerenderizacion de todos los Componentes utilizando los datos cargados en el Arreglo de Pacientes, y a su vez el useEffect anterior al detectar un cambio en el State del Arreglo de Pacientes va a volver a sincronizar los datos en el LocalStorage.
@@ -850,7 +877,7 @@ Utilizar los Comandos de Git para hacer los respectivos Commits y Subir los Arch
   git push -u origin master
 ```
 
-Github nos permite clonar este repositorio en otras computadores, crear branches y y enviar tus pull reques para poder subir los cambios a la pagina web de Netlify mediante la sincronizacion de los cambios de los archivos con Github.
+Github nos permite clonar este repositorio en otras computadores, crear branches y y enviar tus pull request para poder subir los cambios a la pagina web de Netlify mediante la sincronizacion de los cambios de los archivos con Github.
 
 Lo primero que debemos hacer es NO enviar los Commits al branch principal (a no ser que sean proyectos pequeños y seamos los unicos propietarios) ya que en una Empresa no es aceptado hacerlo asi. Podemos hacerlo en un branch aparte y luego enviarlo al branch principal. Creamos un nuevo branch mediante (-b permite crear una nueva rama y cambiarla en automatico, nombre de la nueva rama y que el branch existente es main) creando una nueva rama y cambiando del branch principal a la nueva rama:
 ```bash
