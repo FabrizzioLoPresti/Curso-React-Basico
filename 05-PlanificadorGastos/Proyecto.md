@@ -12,8 +12,8 @@ Eliminamos del Proyecto lo que no utilizamos:
 - Del App.jsx eliminamos el `import logo from '/logo.svg'`
 - Del App.jsx eliminamos todo el contenido HTML dentro del return y el contador
 - Eliminamos el App.css y logo.svg
-- Agregamos en el index.html el link a Normalize.css
-- Agregamos el el index.html los links a Fuentes de Google Fonts
+- Agregamos en el index.html el link a Normalize.css (URL)
+- Agregamos en el index.html los links a Fuentes de Google Fonts
 - Nuestro archivo de CSS de index.css con todas las clases a utlizar se encuentra cargado en el main.jsx de esta forma queda importado de forma global en todos los componentes de React
 
 ## Creacion de Componente de Nuevo Presupuesto
@@ -21,7 +21,7 @@ Lo primero que debemos hacer es crear dentro de la Carpeta de src la carpeta de 
 
 Vamos a crear dos Componentes:
 - Header.jsx
-- NuevoPresupuesto.jsx que es el que va a contener el formulario para ingresar el nuevo presupuesto
+- NuevoPresupuesto.jsx que es el que va a contener el formulario para INGRESAR el nuevo presupuesto
 
 En el App.jsx importamos el componente Header.jsx y el componente NuevoPresupuesto.jsx lo importamos dentro del Componente de Header.jsx.
 
@@ -72,17 +72,20 @@ En NuevoPresupuesto
 ```
 
 ## Creando el Formulario de Presupuesto
-Debemos definir un State de Presupuersto el cual debe estar disponible en diferentes Componentes desde el Formulario para Cargar un Nuevo Presupuesto hasta el Componente de Planificador de Gastos, por lo que es conveniente definir el State en el Archivo Principal App.jsx.
+Debemos definir un State de Presupuesto el cual debe estar disponible en diferentes Componentes desde el Formulario para Cargar un Nuevo Presupuesto hasta el Componente de Planificador de Gastos, por lo que es conveniente definir el State en el Archivo Principal App.jsx.
 
+Se debe crear el State de Presupuesto en el Componente Principal de App.jsx para poder pasar el Presupuesto desde NuevoPresupuesto en el Header hasta el Componente de Planificador/Listado de Gastos, los cuales se muestran en forma Condicional segun este cargado o no el Presupuesto.
 
-De este modo en el App.jsx creamos el State de Presupuesto, el cual se lo enviamos por medio de Props al Header.jsx y de alli al Componente de NuevoPresupuesto.jsx donde el usuario ingresa el Presupuesto, por lo que alli es donde utilizamos el State de Presupuesto para setearle el valor a la Variable de Presupuesto.
+De este modo en el App.jsx creamos el State de Presupuesto, el cual se lo enviamos por medio de Props al Header.jsx y de alli al Componente de NuevoPresupuesto.jsx donde el usuario ingresa el Presupuesto, por lo que alli es donde utilizamos el State de Presupuesto para setearle el valor a la Variable de Presupuesto. Una vez cargado el State en la Variable de Presupuesto, en base a este se valida y en forma condicional, si es un Presupuesto valido deja de mostrarse el Componente de Header.jsx junto con el Formulario de NuevoPresupuesto.jsx y pasa a mostrarse el Componente de Planificador de Gastos.
 
-## Validadndo el Presupuesto
+## Validando el Presupuesto
 Debemos validar ademas que el Presupuesto ingresado sea un presupuesto valido, es decir que sea mayor a 0 y no sean letras. En ese caso mostrar un mensaje de error.
 
-En el Formulario de NuevoPresupuesto.jsx primero definimos el Presupuesto utilizando el State creado en el App.jsx agregando al Input de presupuesto como value el valor del State de Presupuesto y mediante el metodo onChange cada vez que cambia el valor ingresado en el Input utilizamos la funcion del State de setPresupuesto para asignarle el Nuevo Valor a la Variable de Presupuesto definida en el State. Al cambiar el Valor del State la Aplicacion se rerenderiza mostrando el nuevo valor del State de Presupuesto ingresado en el Input en base al Value. En base al Evento onChange que pasa por Parametro el nuevo valor de Presupuesto por medio de setPresupuesto() se actualiza el State de Presupuesto, en el App.jsx se actualiza el State de Presupuesto y se rerenderiza el App.jsx mostrando el nuevo valor del State de Presupuesto, pasando dicho valor actualizado a todos sus componentes hijos por medio de los Props y rerenderizando la Aplicacion en base a dicho cambio debido a que se actualizo el State de Presupuesto.
+En el Formulario de NuevoPresupuesto.jsx primero definimos el Presupuesto utilizando el State creado en el App.jsx agregando al Input de presupuesto como value el valor del State de Presupuesto y mediante el Evento onChange cada vez que cambia el valor ingresado en el Input utilizamos la funcion del State de setPresupuesto() para asignarle el Nuevo Valor a la Variable de Presupuesto definida en el State. Al cambiar el Valor del State la Aplicacion se rerenderiza mostrando el nuevo valor del State de Presupuesto ingresado en el Input en base al Value. En base al Evento onChange que pasa por Parametro el nuevo valor de Presupuesto por medio de setPresupuesto() se actualiza el State de Presupuesto, en el App.jsx se actualiza el State de Presupuesto y se rerenderiza el App.jsx mostrando el nuevo valor del State de Presupuesto, pasando dicho valor actualizado a todos sus componentes hijos por medio de los Props y rerenderizando la Aplicacion en base a dicho cambio debido a que se actualizo el State de Presupuesto.
 
-Posteriormente para validar los datos ingresados en el Formulario debemos crear una Funcion que se ejecute al momento de que el usuario presione el Boton de Enviar, esto lo logramos mediante el Evento onSubmit de React que nos permite asociarle una Funcion al formulario que se ejecuta al momento de enviar los datos del mismo. En dicha funcion de handlePresupuesto debemos validar que el Presupuesto ingresado sea mayor a 0 y no sean letras, tomando el Evento e y previniendo la accion por defecto del formulario, que es que se envien los datos.
+Posteriormente para validar los datos ingresados en el Formulario debemos crear una Funcion que se ejecute al momento de que el usuario presione el Boton de Enviar (el Usuario presion el Boton de Enviar y validamos que el Presupuesto ingresado sea valido), esto lo logramos mediante el Evento onSubmit() de React que nos permite asociarle una Funcion al **Formulario** que se ejecuta al momento de enviar los datos del mismo. En dicha funcion de handlePresupuesto debemos validar que el Presupuesto ingresado sea mayor a 0 y no sean letras, tomando el Evento e y previniendo la accion por defecto del Formulario, que es que se envien los datos. 
+
+La Validacion del Presupuesto se realiza dentro del Componente de NuevoPresupuesto.jsx debido a que este cuenta con el Formulario donde se ingresa el Presupuesto y el Boton de agregar el mismo, por lo tanto vamos a validar que el Presupuesto sea Valido al momento de presionar el Boton de Enviar del Formulario mediante el Evento OnSubmit() el cual manda a llamar la Funcion de handlePresupuesto() la cual se encarga de validar el mismo.
 
 Se realizan las Validaciones correspondientes si el valor del Presupuesto es mayor a 0 y no sean letras. En caso de que no cumpla con las validaciones se mostrara un mensaje de error.
 
@@ -96,6 +99,7 @@ const NuevoPresupuesto = ({presupuesto, setPresupuesto}) => {
 
   const handlePresupuesto = (e) => {
     e.preventDefault()
+    // if(!Number(presupuesto) || Number(presupuesto) < 0) return setMensaje('Presupuesto Invalido')
     if(!Number(presupuesto) || Number(presupuesto) < 0) {
       return setMensaje('El presupuesto no es valido')
     }
@@ -113,6 +117,7 @@ const NuevoPresupuesto = ({presupuesto, setPresupuesto}) => {
             className="nuevo-presupuesto"
             placeholder="Ingrese su presupuesto"
             value={presupuesto === 0 ? '' : presupuesto}
+            // onChange={e => setPresupuesto(Number(e.target.value))}
             onChange={e => setPresupuesto(e.target.value)}
           />
         </div>
@@ -141,6 +146,8 @@ export default Mensaje
 ```
 
 Entonces verificamos, si el State mensaje tiene contenido distinto a '' mostramos el mensaje de error, en caso contrario no mostramos ningun mensaje. Al pasar la validacion se cambia el State de Mensaje y al cambiar el State se rerenderiza el Componente sin mostrar el mensaje de error debido a que el State de Mensaje esta vacio porque lo Seteamos a '' en el Evento onSubmit de handlePresupuesto.
+
+Creando el Componente de Mensaje.jsx (sin ser un State booleano que muestre un Mensaje estatico igual para todos y siendo un State de string que nos permite setear el mensaje a enviar por medio de Props a {children}) de esta manera nos permite tener una mayor reutilizacion, debido a que el Componennte de Mensaje se va a mostrar UNICAMENTE cuando en su State tenga algun contenido distinto a '' (`{mensaje && <Mensaje tipo='error'>{mensaje}</Mensaje>}`), y nos permite enviarle por Props la clase asociada que necesitemos segun el tipo de mensaje y mediante {children} el Contenido del mismo que es el mensaje que se encuentra dentro del State de mensaje. Esto nos permite tener multiples Componentes de Mensaje distintos para error, exito, etc. cambiando unicamente la Clase y el Mensaje de {children}.
 
 Podemos refactorizar el Codigo del Componente NuevoPresupuesto para mantener siempre el valor del Presupuesto como un Number y no como un String, para ello debemos utilizar el metodo Number() para convertir el String a Number.
 ```jsx
@@ -185,11 +192,47 @@ export default NuevoPresupuesto
 ```
 
 ## Mostrando el Componente de Gastos si el Presupuesto es Valido
-En el caso de que el Presupuesto ingresado sea valido debemos mostrar el Componente de Gastos. Para ello vamos a crear en el App.jsx un nuevo State de isValidPresupuesto para cambiar el valor del State en caso de que el Presupuesto ingresado sea valido, de esa manera si isValidPresupuesto es true se mostrara el Componente de Gastos, de lo contrario no se mostrara. Al cambiar el State de isValidPresupuesto se rerenderiza el App.jsx mostrando el Componente de Gastos.
+En el caso de que el Presupuesto ingresado sea valido debemos mostrar el Componente de Gastos. Para ello vamos a crear en el App.jsx un nuevo State de isValidPresupuesto para cambiar el valor del State en caso de que el Presupuesto ingresado sea valido, de esa manera si isValidPresupuesto es true se mostrara el Componente de Gastos, de lo contrario no se mostrara y se mostrar el Header con el Formulario para cargar un NuevoPresupuesto. **Al cambiar el State de isValidPresupuesto se rerenderiza el App.jsx mostrando el Componente de Gastos**.
 
 Este State se lo pasamos por medio de Props al Componente de Header donde vamos a realizar la Validacion y segun el valor del State se mostrara el Componente de Gastos o no.
 
-Desde Header.jsx le pasasmos la Funcion de setIsValidPresupuesto al Componente de NuevoPresupuesto para que al momento de que el Presupuesto sea valido se cambie el State de isValidPresupuesto a True, este cambio en el State va a provocar una rerenderizacion del App.jsx y mostrara el Componente de Gastos debido a que el State de isValidPresupuesto es True.
+Desde Header.jsx le pasasmos la Funcion de setIsValidPresupuesto al Componente de NuevoPresupuesto para que al momento de que el Presupuesto sea valido se cambie el State de isValidPresupuesto a True, **este cambio en el State de isValidPresupuesto va a provocar una rerenderizacion del App.jsx y mostrara el Componente de Gastos** debido a que el State de isValidPresupuesto es True.
+
+Si el Presupuesto no es valido se muestra el Componente de NuevoPresupuesto en el Header.jsx, si el Presupuesto es Valido, dentro del Componente de NuevoPresupuesto mediante setIsValidPresupuesto lo colocamos en True y cambia en el App.jsx el State de isValidPresupuesto a True, por lo que si isValidPresupuesto es True podemos mostrar el Planificador o Listado de Gastos dentro del Componente de Header.jsx. 
+
+Se hace el Ternario de Componentes dentro del Componente Header.jsx debido a que se busca mantener el Header y variar solo entre el Formulario de carga de Nuevo Presupuesto y el Listado de Gastos.
+
+En Header.jsx
+```jsx
+  const Header = ({presupuesto, setPresupuesto, isValidPresupuesto, setIsValidPresupuesto}) => {
+    return (
+      <header>
+        <h1>Planificador de Gastos</h1>
+        {isValidPresupuesto ? 
+          <ControlPresupuesto />
+        :
+          <NuevoPresupuesto 
+            presupuesto={presupuesto}
+            setPresupuesto={setPresupuesto}
+            setIsValidPresupuesto={setIsValidPresupuesto}
+          />
+        }
+      </header>
+    )
+  }
+```
+
+En NuevoPresupuesto.jsx
+```jsx
+  const handlePresupuesto = (e) => {
+    e.preventDefault()
+
+    if(!Number(presupuesto) || Number(presupuesto) < 0) return setMensaje('Presupuesto Invalido')
+
+    setMensaje('')
+    setIsValidPresupuesto(true)
+  } 
+```
 
 ## Primeros Pasos con el Componente de Control de Presupuesto
 Creamos el nuevo Componente de ControlPresupuesto.jsx donde se va a mostrar el Presupuesto Gastado y Restante. Dicho Componente lo vamos a importar en el Componente de Header.jsx y se va a mostrar solo en el caso de que el Presupuesto ingresado sea valido y el State de isValidPresupuesto sea True. Desde Header.jsx le pasamos el State de Presupuesto y el State de Restante al Componente de ControlPresupuesto para que se muestren en el Componente de ControlPresupuesto mediante Props.
