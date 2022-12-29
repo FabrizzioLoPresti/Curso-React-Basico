@@ -255,6 +255,7 @@ Debemos darle el Formato de Dinero al Presupuesto para que se muestre como una C
 Debemos agregar un Boton para Registrar un Nuevo Gasto el cual se va a encontrar en el App.jsx y se va a mostrar solo en el caso de que el Presupuesto ingresado sea valido y el State de isValidPresupuesto sea True. 
 
 ```jsx
+  import IconoNuevoGasto from '../src/assets/img/nuevo-gasto.svg'
   <div className="App">
     <Header 
       presupuesto={presupuesto}
@@ -274,7 +275,7 @@ Debemos agregar un Boton para Registrar un Nuevo Gasto el cual se va a encontrar
   </div>
 ```
 
-Ademas por un lado en el App.jsx es donde vamos a almacenar el State con el Arreglo de los Gastos guardados (para poder distribuirlos a lo largo de los diferentes Componentes junto con su funcion de setGastos() para agregar nuevos Gastos todo por medio de los Props).
+Ademas por un lado **en el App.jsx es donde vamos a almacenar el State con el Arreglo de los Gastos guardados** (para poder distribuirlos a lo largo de los diferentes Componentes junto con su funcion de setGastos() para agregar nuevos Gastos todo por medio de los Props).
 Por el otro lado creamos el Boton en el App.jsx porque Header.jsx solo contiene los Headers de la App ya sea para cargar un Nuevo Presupuesto o para Ver el Presupuesto Gastado pero el Boton se encuentra debajo y fuera de eso, junto con los gastos.
 
 ## Primeros pasos para crear una Ventana Modal
@@ -333,14 +334,14 @@ Entonces si el Valor del State de modal es true procedemos a Mostrar el Componen
 ## Mostrando y Ocultando la Ventana Modal
 Para ello generamos un nuevo Componente para la Ventana Modal como Modal.jsx, el cual se va a llamar en el momento en el que el State de la Variable modal valga True. Si el State de la Variable modal cambia a False esto provoca una rerenderizacion y al Valer False el State de la Variable de Modal entonces la condicion no se cumple y no se muestra el Componente de Modal.jsx.
 
-Al Componente de Modal.jsx le pasamos por medio de Props desde el App.jsx la Funcion de setModal() para poder pasarle como valor False al momento de apretar el Boton de Cerrar, al hacer esto el State de la Variable Modal cambia a False y este cambio en el State provoca una rerenderizacion de Modo que al Recargarse y evaluar la condicion detecta que el State de la Variable Modal es False por lo tanto no muestra el Componente de Modal.jsx.
+**Al Componente de Modal.jsx le pasamos por medio de Props desde el App.jsx la Funcion de setModal() para poder pasarle como valor False al momento de apretar el Boton de Cerrar, al hacer esto el State de la Variable Modal cambia de True a False y este cambio en el State de la Variable provoca una rerenderizacion de Modo que al Recargarse y evaluar nuevamente la condicion, detecta que el State de la Variable Modal es False por lo tanto no muestra el Componente de Modal.jsx**.
 
 ## Creando una Animacion en la Ventana Modal
 Para darle una Animacion al Formulario dentro de la Ventana Modal para que aparezca luego de cierto tiempo lo que hacemos dentro del App.jsx es definir en primera Instancia un Nuevo State de animarModal donde lo inicializamos con False. Al momento en el que se hace click en el Boton de Agregar Nuevo Gasto y se llama a la Funcion de handleNuevoGasto la cual cambia el State de la Variable Modal a True para que esta se muestre, luego de X tiempo seteamos a True mediante su Funcion de setAnimarModal() el cual cambia el State de la Variable animarModal a True para que se muestre la Animacion.
 
 Dicha Variable de Animar Modal se pasa por medio de Props al Componente de Modal para que Validemos si se encuentra en True, en ese caso se agrega al Formulario la Clase de Animar la cual agrega la Transicion.
 
-Primero se colococa en True el State de la Variable Modal para que aparezca la Ventana Modal por medio de la Rerenderizacion, luego de X tiempo se pone en True el State de la Variable de AnimarModal lo que provoca que cambie el State de la Variable de AnimarModal y este se pase por medio de Props al Componente de Modal.jsx donde se valida y en caso afirmativo se muestra la Animacion. Este cambio en el State de la Variable de AnimarModal provoca una rerenderizacion donde se recarga el Componente de Modal con el nuevo valor del State de la Variable de AnimarModal en True y se muestra la Animacion.
+Primero se colococa en True el State de la Variable Modal para que aparezca la Ventana Modal por medio de la Rerenderizacion al Cambiar el State de la Variable, luego de X tiempo se pone en True el State de la Variable de AnimarModal lo que provoca que cambie el State de la Variable de AnimarModal y este se pase por medio de Props al Componente de Modal.jsx donde se valida y en caso afirmativo se muestra la Animacion del Formulario. Este cambio en el State de la Variable de AnimarModal provoca una rerenderizacion donde se recarga el Componente de Modal con el nuevo valor del State de la Variable de AnimarModal en True y se muestra la Animacion del Formulario al validar la Condicion.
 
 ```jsx
   // En App.jsx
@@ -452,7 +453,8 @@ Para evitar la Conversion de String a Number debemos validar que el Valor del In
 Creando los States por separdo:
 ```jsx
   const [nombre, setNombre] = useState('')
-  const [cantidad, setCantidad] = useState(0)
+  // const [cantidad, setCantidad] = useState(0)
+  const [cantidad, setCantidad] = useState('')
   const [categoria, setCategoria] = useState('')
 
   <div className="campo">
@@ -474,8 +476,9 @@ Creando los States por separdo:
       id="cantidad"
       name='cantidad'
       placeholder="Ej. 3000"
-      value={cantidad === 0 ? '' : cantidad}
-      onChange={(e) => setCantidad(Number(e.target.value))}
+      // value={cantidad === 0 ? '' : cantidad}
+      value={cantidad}
+      onChange={e => setCantidad(Number(e.target.value))}
     />
   </div> {/* .campo */}
 ```
