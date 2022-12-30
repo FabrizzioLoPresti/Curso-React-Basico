@@ -484,7 +484,7 @@ Creando los States por separdo:
 ```
 
 ## Validando los Gastos
-Vamos a registrar al Formulario de Modal.jsx un Evento onSubmit() de React para llamar a la Funcion handleSubmit() que se ejecuta al momento de enviar el Formulario y va a ser la encargada de Validar los Campos. Tambien creamos un Nuevo State para guardar el Mensaje de Error y luego en caso de que este exista o tenga contenido mostramos el Componente de Mensaje.jsx pasandole por Props el valor del State de Mensaje. AL detectar un campo vacio Seteamos el Valor de Mensaje en el State mediante su Funcion de setMensaje(), esto provoca un cambio en el State que causa una rerenderizacion donde ahora el State de Mensaje tiene un valor y al realizar la validacion por si tiene algo, al tener contenido se muestra el Componente de Mensaje.jsx con el Mensaje que se encuentra en el State pasado por medio de Props. Si el Formulario esta completo y de forma valida seteamos el Valor del State a '' de Modo que no tiene Contenido, este cambio en el State provoca una rerenderizacion donde el State de Mensaje no tiene contenido y al realizar la validacion por si tiene algo, al no tener contenido no se muestra el Componente de Mensaje.jsx.
+Vamos a registrar al Formulario de Modal.jsx un Evento onSubmit() de React para llamar a la Funcion handleSubmit() que se ejecuta al momento de enviar el Formulario y va a ser la encargada de Validar los Campos. Tambien creamos un Nuevo State para guardar el Mensaje de Error y luego en caso de que este exista o tenga contenido mostramos el Componente de Mensaje.jsx pasandole por Props el valor del State de Mensaje. Al detectar un campo vacio Seteamos el Valor de Mensaje en el State mediante su Funcion de setMensaje(), esto provoca un cambio en el State que causa una rerenderizacion donde ahora el State de Mensaje tiene un valor y al realizar la validacion por si tiene algo, al tener contenido se muestra el Componente de Mensaje.jsx con el Mensaje que se encuentra en el State pasado por medio de Props. Si el Formulario esta completo y de forma valida seteamos el Valor del State a '' de Modo que no tiene Contenido, este cambio en el State provoca una rerenderizacion donde el State de Mensaje no tiene contenido y al realizar la validacion por si tiene algo, al no tener contenido no se muestra el Componente de Mensaje.jsx.
 
 ```jsx
   const [nombre, setNombre] = useState('')
@@ -514,7 +514,7 @@ Vamos a registrar al Formulario de Modal.jsx un Evento onSubmit() de React para 
   </form>
 ```
 
-Dentro del App.jsx (a diferencia del Proyecto anterior donde teniamos el State de citas y la Funcion que modificaba el Arreglo de Citas era setCitas() donde pasamos Citas y setCitas() al Formulario para alli guardar los datos dentro del Arreglo) vamos a crear una Funcion de guardarGasto() que se va a encargar de Guardar en el Arreglo del State de Gastos el Nuevo Gasto recibido como Objeto por parametros desde el Formulario de Modal.jsx. Esta Funcion de guardarGasto() se pasa por medio de Props al Formulario de Modal.jsx para que este le envie por parametros el Objeto con los datos cargados en el Formulario, dichos datos vuelven a la Funcion que se encuentra en el App,jsx donde se almacenan en el Arreglo del State creado para guardar los gastos que es un Arreglo de Objetos. Esto nos ahorra tener que pasar tanto el Arreglo como la Funcion del State para realizar esta Funcionalidad dentro del Componente de Modal.jsx.
+Dentro del App.jsx (a diferencia del Proyecto anterior donde teniamos el State de citas y la Funcion que modificaba el Arreglo de Citas era setCitas() donde pasamos Citas y setCitas() al Formulario para alli guardar los datos dentro del Arreglo), ahora vamos a crear una Funcion de guardarGasto() en el App.jsx que se va a encargar de Guardar en el Arreglo del State de Gastos el Nuevo Gasto recibido como Objeto por parametros desde el Formulario de Modal.jsx. Esta Funcion de guardarGasto() se pasa por medio de Props al Formulario de Modal.jsx para que este le envie por parametros el Objeto con los datos cargados en el Formulario, dichos datos vuelven a la Funcion que se encuentra en el App,jsx donde se almacenan en el Arreglo del State creado para guardar los gastos que es un Arreglo de Objetos. Esto nos ahorra tener que pasar tanto el Arreglo como la Funcion del State para realizar esta Funcionalidad dentro del Componente de Modal.jsx.
 
 ```jsx
   // En el App.jsx
@@ -566,7 +566,7 @@ Dentro del Archivo de index.js en la carpeta helpers vamos a crear una Funcion q
   export const generarId = () => {
     return (
       '_' + 
-      Math.random().toString(36).substr(2) + 
+      Math.random().toString(36).substring(2, 5) + 
       Date.now().toString(36)
     );
   }
@@ -590,14 +590,14 @@ Dentro del App.jsx importamos la Funcion de generarId() y la guardamos en el Obj
 ```
 
 ## Creando el Componente para Mostrar un Gasto
-Si el Presupuesto es Valido no solamente mostramos el Boton de Agregar Nuevo Gasto, sino tambien el Listado de los Componentes de Gasto.
+Si el Presupuesto es Valido (`isValidPresupuesto` es true) no solamente mostramos el Boton de Agregar Nuevo Gasto, sino tambien el Listado de los Componentes de Gasto.
 
 Ademas dependendiendo del State de la Variable de isValidPresupuesto, si es false en Header.jsx se muestra el Header para cargar un Nuevo Presupuesto. Si el State de la Variable de isValidPresupuesto es true en Header.jsx se muestra el Header con Grafico de los Gastos por un lado y por el Otro el Presupuesto total, disponible y gastado, ademas en el App.jsx si el State de la Variable de isValidPresupuesto es true se muestra el Boton de Agregar Nuevo Gasto y el Listado de los Componentes de Gasto debajo del Header.jsx que muestra el Header con Grafico de los Gastos por un lado y por el Otro el Presupuesto total, disponible y gastado debido a que isValidPresupuesto es true.
 
 ```jsx
   return (
     <div className="App">
-      // Depemdiedo del State de isValidPresupuesto que se valida dentro de Header.jsx muestra el header de Cargar Nuevo Presupuesto o el Header que tiene el Grafico de los Gastos por un lado y por el Otro el Presupuesto total, disponible y gastado.
+      // Dependiendo del State de isValidPresupuesto que se valida dentro de Header.jsx muestra el header de Cargar Nuevo Presupuesto o el Header que tiene el Grafico de los Gastos por un lado y por el Otro el Presupuesto total, disponible y gastado.
       <Header 
         presupuesto={presupuesto}
         setPresupuesto={setPresupuesto}
@@ -637,7 +637,7 @@ Ademas dependendiendo del State de la Variable de isValidPresupuesto, si es fals
   )
 ```
 
-Posteriormente dentro del Componente de ListadoGastos.jsx el cual recibe por medio de props el Array de Gastos, verificamos el State de gastos y si su longitud es 0 o Flase entonces mostramos un Mensaje Condicional de que no hay Gastos Registrados. En caso contrario mostramos un Titulo de que hay gastos y recorremos mediante un .map() el Arreglo de Gastos el cual nos retorna de forma implicita cada uno de los Gastos contenidos en el Arreglo y mostramos cada uno de ellos con un Componente de Gasto, el cual recibe por medio de Props el key necesario para identificar cada uno de los Gastos y el Objeto de Gasto resultante de la iteracion.
+Posteriormente dentro del Componente de ListadoGastos.jsx el cual recibe por medio de props el Array de Gastos, **verificamos el State de Gastos y si su longitud es 0 o False (0-False, 1 o mas-True)** entonces mostramos un Mensaje Condicional de que no hay Gastos Registrados. En caso contrario mostramos un Titulo de que hay gastos y recorremos mediante un .map() el Arreglo de Gastos el cual nos retorna de forma implicita cada uno de los Gastos contenidos en el Arreglo y mostramos cada uno de ellos con un Componente de Gasto, el cual recibe por medio de Props el key necesario para identificar cada uno de los Gastos y el Objeto de Gasto resultante de la iteracion.
 ```jsx
   import Gasto from "./Gasto"
   const ListadoGastos = ({gastos}) => {
@@ -697,7 +697,7 @@ Le agregamos al Objeto de Gasto en el App.jsx una Fecha que se crea junto con el
 ```
 
 ## Formateando Fechas
-Para Formatear la Fecha en la cual se genero el gasto vamos a crear una nueva Funcion dentro de nuestro archivo de `helpers` encargada de Formatear la Fecha sin mutar la Fecha Original.
+Para Formatear la Fecha en la cual se genero el Gasto vamos a crear una nueva Funcion dentro de nuestro archivo de `helpers`, **encargada de Formatear la Fecha sin mutar la Fecha Original**.
 ```js
   export const formatearFecha = (fecha) => {
     const fechaNueva = new Date(fecha);
