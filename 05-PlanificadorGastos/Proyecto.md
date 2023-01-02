@@ -870,7 +870,9 @@ Luego en el Componente de Gasto.jsx es donde vamos a colocar la Animacion:
 ```
 
 ## Finalizando el Efecto de Swipe
-Estos Componentes son los que permiten hacer el efecto de Swipe, los cuales son los que se encargan de mostrar las acciones que se pueden realizar sobre un Gasto, es decir, Editar o Eliminar.
+Estos Componentes son los que permiten hacer el efecto de Swipe, los cuales son los que se encargan de mostrar las acciones que se pueden realizar sobre un Gasto, es decir, Editar o Eliminar. 
+
+Las funciones se van a encargar de Retornar mediande () los Nuevos Componentes necesarios para llevar a cabo las acciones de Editar o Eliminar. Funciones que retornan Componentes mediante ().
 ```jsx
   const leadingActions = () => (
     <LeadingActions>
@@ -883,7 +885,7 @@ Estos Componentes son los que permiten hacer el efecto de Swipe, los cuales son 
   const trailingActions = () => (
     <TrailingActions>
       <SwipeAction onClick={() => console.log('Eliminar')}>
-        Editar
+        Eliminar
       </SwipeAction>
     </TrailingActions>
   )
@@ -897,7 +899,7 @@ Dentro del App.jsx vamos a crear un nuevo State gastoEditar donde vamos a guarda
   const [gastoEditar, setGastoEditar] = useState({})
 ```
 
-Pasamos la Funcion de setGastoEditar al Componente de Gasto.jsx para que almacene el Gasto a Editar al Arrastrar el Swipe pasandole el Id del Gasto o el Objeto de Gasto correspondiente al Componente que tiene asignada la Funcion, en el Momento que realizamos la Accion de Swipe para el lado de Editar se llama la Funcion de leadingActions la cual guarda el Objeto del Gasto correspondiente al Componente Swipeado en el State gastoEditar.
+Pasamos la Funcion de setGastoEditar al Componente de Gasto.jsx para que almacene el Gasto Swipeado a Editar al Arrastrar el Swipe pasandole el Id del Gasto o el Objeto de Gasto correspondiente al Componente (cada Gasto) que tiene asignada la Funcion, en el Momento que realizamos la Accion de Swipe para el lado de Editar se llama la Funcion de leadingActions la cual guarda el Objeto del Gasto correspondiente al Componente Swipeado en el State gastoEditar.
 ```jsx
   const Gasto = ({gasto, setGastoEditar}) => {
     const {nombre, cantidad, categoria, fecha, id} = gasto
@@ -911,7 +913,7 @@ Pasamos la Funcion de setGastoEditar al Componente de Gasto.jsx para que almacen
     )
 ```
 
-De esta Forma el Gasto {} se pasa al State de gastoEditar el cual se encuentra en el App.jsx y ahora nos encontramos en condiciones de cargarlo en el Formulario de la Ventana Modal, mediante un useEffect al momento de detectar un cambio en el State de gastoEditar y verificar que tenga algo y no pq sea la primera renderizacion.
+De esta Forma el Gasto {} se pasa al State de gastoEditar el cual se encuentra en el App.jsx y ahora nos encontramos en condiciones de cargarlo en el Formulario de la Ventana Modal, mediante un useEffect al momento de detectar un cambio en el State de gastoEditar y verificar que tenga algo y no pq sea la primera renderizacion cuando se crea el Componente y esta listo.
 ```jsx
   useEffect(() => {
     if(Object.keys(gastoEditar).length > 0) {
@@ -921,7 +923,7 @@ De esta Forma el Gasto {} se pasa al State de gastoEditar el cual se encuentra e
 ```
 
 ## Colocando el Gasto a Editar en el State y en el Formulario
-Procedemos a enviar por Medio de Props el Objeto de gastoEditar desde el App.jsx a la Ventana Modal donde verificamos si el Objeto tiene algo o no, para ver si cargamos los datos en el Formulario por ser une Edicion o no cargamos nada por ser una Nueva Carga. Utilizamos para ello un useEffect que detecte cuando el Componente de Modal este listo debido a que se monta y se desmonta cada vez que lo abrimos o cerramos, no esta presente todo el tiempo. Cuando el useEffect detecte que el Componente de Modal este listo se ejecuta la Funcion que carga los datos del Gasto a Editar en el Formulario, verificando previamente si el Objeto de gastoEditar tiene contenido.
+Procedemos a enviar por Medio de Props el Objeto de gastoEditar desde el App.jsx a la Ventana Modal donde verificamos si el Objeto tiene algo o no, para ver si cargamos los datos en el Formulario por ser una Edicion o no cargamos nada por ser una Nueva Carga. Utilizamos para ello un useEffect que detecte cuando el Componente de Modal este listo debido a que se monta y se desmonta cada vez que lo abrimos o cerramos, no esta presente todo el tiempo. Cuando el useEffect detecte que el Componente de Modal este listo se ejecuta la Funcion que carga los datos del Gasto a Editar en el Formulario, verificando previamente si el Objeto de gastoEditar tiene contenido.
 
 En Modal.jsx:
 ```jsx
@@ -935,8 +937,8 @@ En Modal.jsx:
 ```
 
 Dentro del App.jsx definimos las funciones por separado debido a que:
-- La Funcion handleNuevoGasto() es la que se encarga de abrir la Ventana Modal al momento de presionar el Boton para Agregar un Nuevo Gasto, lo que implica que el Formulario debe encontrarse vacio, es decir no debe cargarse con el Contenido del Objeto de gastoEditar, por lo que al momento de ejeuctar la Funcion handleNuevoGasto() vaciamos el State de gastoEditar para que al Comprobar dentro de la Ventana Modal encuentre el Objeto de gastoEditar vacio y el Formulario se cargue vacio y con los datos por default.
-- El useEffect se encarga practicamente de lo mismo que la Funcion de handleNuevoGasto() pero con la diferencia de que no vacia el State del Objeto de gastoEditar, sino que al detectar un cambio en el Objeto de gastoEditar (validando que sea porque se agrego contenido y no porque es la primera vez que se crea el Componente) llama y levanta a la Ventana Modal la cual en su Componente se encarga de Validar mediante un useEffect al estar listo el Componente Modal.jsx si el State de gastoEditar tiene contenido y al si tenerlo carga los datos dentro del Formulario.
+- La **Funcion handleNuevoGasto()** es la que se encarga de abrir la Ventana Modal al momento de presionar el Boton para Agregar un Nuevo Gasto, lo que implica que el Formulario debe encontrarse vacio, es decir no debe cargarse con el Contenido del Objeto de gastoEditar, por lo que **al momento de ejecutar la Funcion handleNuevoGasto() vaciamos el State de gastoEditar** para que al Comprobar dentro de la Ventana Modal encuentre el Objeto de gastoEditar vacio y el Formulario se cargue vacio y con los datos por default.
+- El useEffect se encarga practicamente de lo mismo que la Funcion de handleNuevoGasto() pero con la diferencia de que no vacia el State del Objeto de gastoEditar, sino que al detectar un cambio en el Objeto de gastoEditar (validando que sea porque se agrego contenido y no porque es la primera vez que se crea el Componente) llama y levanta a la Ventana Modal, la cual en su Componente se encarga de Validar mediante un useEffect al estar listo el Componente Modal.jsx si el State de gastoEditar tiene contenido y al si tenerlo carga los datos dentro del Formulario.
 
 Esta metodologia nos permite limpiar el Formulario al agregar un Nuevo Gasto o cargar el Gasto en el Formulario al Presionar o Deslizar el Swipe para Editar.
 ```jsx
@@ -966,6 +968,8 @@ Esta metodologia nos permite limpiar el Formulario al agregar un Nuevo Gasto o c
   }
 ```
 
+El useEffect se encargar de Modal.jsx se encarga de revisar cuando el Componenete este listo y no cuando cambie el Objeto de gastoEditar debido a que el Componente de Modal se monsta y se desmonta, y en cualquier caso, durante su existencia el Objeto de gastoEditar no varia como para que detecte un cambio del mismo, por eso se ejecuta el useEffect cuando el Componente de Modal este montado, se valida si gastoEditar tiene datos y en ese caso se cargan en el Formulario.
+
 ## Editando los Gastos
 Primero dentro de Modal vamos a crear un Condicional que Cambie el Texto segun estemos Editando o Agregando un Nuevo Gasto.
 ```jsx
@@ -980,12 +984,15 @@ Luego dentro de Modal.jsx vamos a crear un nuevo State con el Id para de esta ma
   const [id, setId] = useState(gastoEditar.id || '')
 ```
 
-Yo desde Modal.jsx mando a la Funcion guardarGasto del App.jsx un Objeto `{nombre, cantidad, categoria, id}`, pero si el Objeto es nuevo el ID se envia desde el Formulario de Modal como "" sin ningun valor a la Funcion de guardarGasto, ya que si estuvieramos Editando el useEffect de Modal.jsx que controla si el Objeto de gastoEditar tiene contenido asigna el valor del Id del Objeto a Editar en el State de ID de forma que luego al apretar el Boton para enviar el Formulario y ejecutarse la Funcion de handleSubmit de Modal.jsx se envia el Objeto con el Id y si en la Funcion de guardarGasto de App.jsx detectamos que ya tiene un ID es porque estamos editando, en caso contrario no hubiera habido nada en el Objeto de gastoEditar no se carga nada en el State de ID y el State de ID vale "" por ende cuando se llame a la Funcion de handleSubmit de Modal.jsx que envia el Objeto a guardarGasto de App.jsx va a enviar el Objeto con ID "" y si estuvieramos Editando envia el ID correspondiente al Objeto que estamos editando. Por lo tanto en la Funcion de guardarGasto del App.jsx podemos validar que si el ID existe estamos editando pero si el ID no existe o no tiene contenido o su ID es "" entonces estamos agregando un Nuevo Gasto.
+Desde Modal.jsx se envia el Objeto `{nombre, cantidad, categoria, id}` a la Funcion guardarGasto() del App.jsx. Si el Objeto es nuevo el ID se envia desde el Formulario de Modal como "" sin ningun valor a la Funcion de guardarGasto(). Si estuvieramos Editando el useEffect de Modal.jsx que controla si el Objeto de gastoEditar tiene contenido, asigna el valor del ID del Objeto a Editar en el State de ID de forma que luego al apretar el Boton para enviar el Formulario y ejecutarse la Funcion de handleSubmit de Modal.jsx se envia el Objeto con el ID ya asignado cuando este fue creado. Si en la Funcion de guardarGasto de App.jsx detectamos que ya tiene un ID es porque estamos editando, en caso contrario es un nuevo registro por lo que debemos generarle un nuevo ID.
 
 En Modal.jsx
 ```jsx
   const [fecha, setFecha] = useState('')
   const [id, setId] = useState('')
+  // ID y Fecha que se generan en el App.jsx al crear un NUEVO GASTO en guardarGasto()
+  // Si es un Nuevo Registro estos campos no existen y no se lanza el useEffect, por lo tanto se envian a la Funcion de guardarGasto() del App.jxs como '' y alli se crean
+
   useEffect(() => {
     if(Object.keys(gastoEditar).length > 0) {
       setNombre(gastoEditar.nombre)

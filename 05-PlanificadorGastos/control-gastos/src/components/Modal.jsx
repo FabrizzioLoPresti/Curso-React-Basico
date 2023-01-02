@@ -1,14 +1,25 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Mensaje from './Mensaje'
 import CerrarBtn from '../assets/img/cerrar.svg'
 
-const Modal = ({setModal, animarModal, setAnimarModal, guardarGasto}) => {
+const Modal = ({setModal, animarModal, setAnimarModal, guardarGasto, gastoEditar}) => {
 
   const [nombre, setNombre] = useState('')
   const [cantidad, setCantidad] = useState('')
   const [categoria, setCategoria] = useState('')
+  const [fecha, setFecha] = useState('')
+  const [id, setId] = useState('')
   const [mensaje, setMensaje] = useState('')
 
+  useEffect(() => {
+    if(Object.keys(gastoEditar).length > 0) {
+      setNombre(gastoEditar.nombre)
+      setCantidad(gastoEditar.cantidad)
+      setCategoria(gastoEditar.categoria)
+      setFecha(gastoEditar.fecha)
+      setId(gastoEditar.id)
+    }
+  }, [])
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -20,7 +31,7 @@ const Modal = ({setModal, animarModal, setAnimarModal, guardarGasto}) => {
       }, 2000);
     }
     
-    guardarGasto({nombre, cantidad, categoria})
+    guardarGasto({nombre, cantidad, categoria, fecha, id})
   }
 
   const handleCerrarModal = () => {
@@ -44,7 +55,7 @@ const Modal = ({setModal, animarModal, setAnimarModal, guardarGasto}) => {
         className={`formulario ${animarModal ? 'animar' : 'cerrar'}`}
         onSubmit={handleSubmit}
       >
-        <legend>Nuevo Gasto</legend>
+        <legend>{gastoEditar.nombre ? 'Editar Gasto' : 'Nuevo Gasto'}</legend>
 
         <div className="campo">
           <label htmlFor="nombre">Nombre Gasto</label>
@@ -94,7 +105,7 @@ const Modal = ({setModal, animarModal, setAnimarModal, guardarGasto}) => {
 
         <input 
           type="submit" 
-          value="Agregar Gasto" 
+          value={gastoEditar.nombre ? 'Guardar Cambios' : 'Agregar Gasto'}
         />
       </form>
     </div>
