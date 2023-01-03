@@ -1084,7 +1084,7 @@ En Gasto.jsx
 Cada vez que Eliminamos un Objeto producimos un Cambio en el State de gastos del App.jsx por lo que se genera un rerender donde se vuelve a cargar el Listado de Gastos con los nuevos Datos y en caso de no haber ningun Objeto en el State de gastos se muestra un Mensaje de que no hay Gastos. Tambien al producirse un rerender se hace un recalculo de Presupuesto Disponible y Gastado debido a que se hizo un cambio en el State de gastos y esto provoca un rerenderizacion en cadena donde se recalcula el Presupuesto Disponible y Gastado.
 
 ## Resetear el State al Finalizar un Gasto Editado
-Pasamos desde el App.jsx la Funcione setGastoEditar del State gastoEditar a Modal.jsx para que este se encargue de resetear el State gastoEditar al finalizar el Gasto Editado o Cerrar la Ventana Modal. Tambien debemos resetear el State de gastoEditar en la Funcion de guardarGasto del App.jsx luego de guardar el Gasto Editado en el Arreglo de Gastos.
+Pasamos desde el App.jsx la Funcion setGastoEditar del State gastoEditar a Modal.jsx para que este se encargue de resetear el State gastoEditar al finalizar el Gasto Editado o Cerrar la Ventana Modal. Tambien debemos resetear el State de gastoEditar en la Funcion de guardarGasto del App.jsx luego de guardar el Gasto Editado en el Arreglo de Gastos.
 
 En Modal.jsx
 ```jsx
@@ -1119,8 +1119,8 @@ En el App.jsx
   }
 ```
 
-## Agregando una Grafica Circular para el COntrol del Presupuesto
-Tendremos una Grafica Circular que se va a actualizar cada vez que se produce un cambio en el State de gastos del App.jsx y en base a ello se va a actualizar la Grafica segun el Porcentaje de Presupuesto gastado, para ello instalaremos una dependencia llamada `react-circular-progressbar` la cual instalamos mediante: `npm install react-circular-progressbare` y la importamos en el ControlPresupuesto.jsx que es donde se encuentra el espacio para el Grafico. Este Componente es el que se importa como Header.
+## Agregando una Grafica Circular para el Control del Presupuesto
+Tendremos una Grafica Circular que se va a actualizar cada vez que se produce un cambio en el State de gastos del App.jsx y en base a ello se va a actualizar la Grafica segun el Porcentaje de Presupuesto gastado, para ello instalaremos una dependencia llamada `react-circular-progressbar` la cual instalamos mediante: `npm install react-circular-progressbar` y la importamos en el ControlPresupuesto.jsx que es donde se encuentra el espacio para el Grafico. Este Componente es el que se importa como Header.
 
 En ControlPresupuesto.jsx
 ```jsx
@@ -1152,7 +1152,7 @@ En ControlPresupuesto.jsx
 ```
 
 ## Calcular el Porcentaje de Presupuesto Gastado para la Grafica Circular
-En el Componente de ControlPresupuesto.jsx donde se encuentra la Grafica vamos a realizar el Calculo del Porcentaje de Presupuesto Gastado para la Grafica Circular dentro del useEffect el cual se ejecuta en el caso de que se produzca un cambio en el State del Arreglo de Gastos del App.jsx o la primera vez que se carga el Componente.
+En el Componente de ControlPresupuesto.jsx donde se encuentra la Grafica vamos a realizar el Calculo del Porcentaje de Presupuesto Gastado para la Grafica Circular **dentro del useEffect el cual se ejecuta en el caso de que se produzca un cambio en el State del Arreglo de Gastos del App.jsx o la primera vez que se carga el Componente**.
 
 En ControlPresupuesto.jsx
 ```jsx
@@ -1163,7 +1163,7 @@ En ControlPresupuesto.jsx
     setDispoible(presupuesto - totalGastado)
 
     // Calcular porcentaje gastado
-    const porcentajeGastado = (totalGastado * 100) / presupuesto
+    const porcentajeGastado = ((totalGastado * 100) / presupuesto).toFixed(2)
     setTimeout(() => {
       setPorcentaje(porcentajeGastado)
     }, 500);
@@ -1201,7 +1201,7 @@ En ControlPresupuesto.jsx
 ```
 
 ## Colocar el Presupuesto en LocalStorage
-Para no perder todos los gastos almacenamos en LocalStorage el State del Arreglo de Gastos que contiene todos los Gastos que se han registrado y el Presupuesto que se ha establecido.
+Para no perder todos los gastos, **almacenamos en LocalStorage el State del Arreglo de Gastos que contiene todos los Gastos que se han registrado y el State de Presupuesto que se ha establecido**.
 
 Dentro del Componente Principal de App.jsx vamos a tener un useEffect donde va a tener como **dependencia** el State de Presupuesto, por lo que cada vez que Presupuesto cambie se va a guardar en LocalStorage. Este cambio ocurre una unica vez al momento de que se carga el Componente o se carga un Presupuesto valido (se ejecuta cada vez que va cambiando el Presupuesto al ingresarlo al Input por el Evento onChange de React).
 
@@ -1211,7 +1211,9 @@ En App.jsx
     localStorage.setItem('presupuesto', JSON.stringify(presupuesto) ?? 0)
   }, [presupuesto])
 ```
-Este Codigo lo que provoca es que al detectar un cambio en el State de Presupuesto se va a guardar en LocalStorage el Presupuesto que se ha ingresado. El problema es que al recargar la Aplicacion el State de Presupuesto se carga en 0, por lo que el useEffect se ejecuta al menos una vez al crearse el Componente (o al detectar un cambio en el Presupuesto) y debido a ello al Cambiar el State con ese valor de 0 se va a guardar en LocalStorage el valor 0. Lo solucionaremos colocando el State de Presupuesto como valor inicial lo que haya en LocalStorage (convirtiendolo a Numero) o en 0 si no hay nada en LocalStorage.
+Este Codigo lo que provoca es que al detectar un cambio en el State de Presupuesto se va a guardar en LocalStorage el Presupuesto que se ha ingresado. El problema es que al recargar la Aplicacion el State de Presupuesto se carga en 0, por lo que el useEffect se ejecuta al menos una vez al crearse el Componente (o al detectar un cambio en el Presupuesto) y debido a ello al Cambiar el State con ese valor de 0 se va a guardar en LocalStorage el valor 0. Lo solucionaremos colocando el State de Presupuesto como valor inicial lo que haya en LocalStorage (convirtiendolo a Numero) o en 0 si no hay nada en LocalStorage. 
+
+Es decir inicia la App, se crea el State de Presupuesto con estado inicial 0, el UseEffect detecta que se monto el Componente o el cambio en Presupuesto y asigna ese valor de 0 en el LocalStorage perdiendo el Valor anterior. Lo solucionamos haciendo que el State de Presupuesto tome como valor Inicial lo que haya almacenado en el LocalStorage y en caso de no haber nada ahi si toma como valor Inicial 0. Entonces toma el Presupuesto de LocalStorage si lo hay, el UseEffect lo detecta y lo sube de nuevo al LocalStorage y ya a partir de ahi lo podemos manipular nosotros.
 ```jsx
     const [presupuesto, setPresupuesto] = useState(Number(localStorage.getItem('presupuesto')) ?? 0)
   useEffect(() => {
@@ -1247,7 +1249,7 @@ En App.jsx
   }, [gastos])
 
   useEffect(() => {
-    const presupuestoLS = Number(localStorage.getItem('presupuesto'))
+    const presupuestoLS = Number(localStorage.getItem('presupuesto')) ?? 0
     if(presupuestoLS > 0) {
       setIsValidPresupuesto(true)
     }
@@ -1447,7 +1449,7 @@ En ControlPresupuesto.jsx
           <span>Presupuesto: </span>{formatearCantidad(presupuesto)} 
         </p>
 
-        <p className={`${disponible < 0 && 'negativo'}`}>
+        <p className={disponible < 0 && 'negativo'}>
           <span>Disponible: </span>{formatearCantidad(disponible)} 
         </p>
 
