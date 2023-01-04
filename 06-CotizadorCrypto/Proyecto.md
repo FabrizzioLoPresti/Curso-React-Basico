@@ -5,7 +5,7 @@
 2. Cambiar titulo dentro del index.html
 3. Eliminamos el App.css
 4. En el App.jsx eliminamos referencias al CSS y al Logo
-5. Eliminar todo el Contenidod el index.css y colocar `background-color: #0D2235;` en el body
+5. Eliminar todo el Contenido del index.css y colocar `background-color: #0D2235;` en el body
 6. Agregar las Fuentes de Google en el index.html
 7. Agregar imagenes estaticas, hojas de estilos globales, etc. en la carpeta de assets
 
@@ -32,7 +32,7 @@ Esto es igual a `<h1>Nuestros Productos</h1>` con los estilos correspondientes:
   <Heading>Nuestros Productos</Heading>
 ```
 
-Lo Primero que requerimos para utilziarlo es Importar la Libreria dentro del Componente:
+Lo Primero que requerimos para utilizarlo es Importar la Libreria dentro del Componente:
 ```jsx
   import { useState } from 'react'
   import styled from '@emotion/styled'
@@ -140,7 +140,7 @@ Los Selects que nos faltan van a ser un Hook Propio que va a tener su propia apa
 ## Primeros pasos creando un Custom Hooks
 Ambos Selects (el de seleccionar Moneda y el de seleccionar Criptomoneda) tienen su propio Select, les pasamos datos y generan ese Select y manejan el State una vez que seleccionas una opcion. Por lo tanto vamos a crear un Custom Hook para que nos ayude a crear estos Selects.
 
-Crear Custom Hooks es como crear las Funciones Auxiliares en un Archivo Helper, pero con la ventaja de que podemos utilizar todo lo que nos Proporciona React.
+Crear Custom Hooks es como crear las Funciones Auxiliares en un Archivo Helper, pero con la ventaja de que podemos utilizar todo lo que nos Proporciona React (Hooks de UseState, UseEffect, etc.).
 
 ### Ventajas de crear tus propios Custom Hooks
 - Algunas veces vas a desear crear tus propios Hooks, una de las razones de porque deseas crearlos es para poder re-utilizar una Funcion.
@@ -149,7 +149,7 @@ Crear Custom Hooks es como crear las Funciones Auxiliares en un Archivo Helper, 
 - Un Hook va a ser re-utilizable en cualquier Componente de React, otros proyectos y lugares de tu pagina.
 
 ### Crear tus Propios Custom Hooks
-Dentro de la Carpeta de `src` vamos a crear una Nueva Carpeta llamada `hhoks` donde vamos a crear nuestro Propio Custom Hoom mediante un Archivo llamado `useSelectMonedas.jsx` (respetando siempre que comience el Nombre con use y en minusculas) y vamos a crear un Custom Hook para manejar el Select de Monedas.
+Dentro de la Carpeta de `src` vamos a crear una Nueva Carpeta llamada `hooks` donde vamos a crear nuestro Propio Custom Hook mediante un Archivo llamado `useSelectMonedas.jsx` (respetando siempre que comience el Nombre con use y en minusculas) y vamos a crear un Custom Hook para manejar el Select de Monedas.
 
 Un Hook no retorna un Componente HTML, sino que retorna un Objeto o un Arreglo como el Hook de useState. Un Hook retorna un valor y una Funcion para actualizar ese valor.
 
