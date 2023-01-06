@@ -460,7 +460,7 @@ Para consultar una API desde React, al se JavaScript puedes utilizar Fetch API o
 
 Algunas API's requieren un Key y otras estan protegidas por CORS.
 
-Tambien es posible integrar una libreria externa como Axios.
+Tambien es posible integrar una libreria externa como Axios o React Query.
 
 Vamos a llamar la API desde el Componente de Formulario.jsx dentro de un useEffect, el cual es un buen lugar para consultar una API debido a que se ejecuta cada vez que el Componente se renderiza. Es decir cuando nuestro Componente de Formulario.jsx este listo, va a mandar a llamar a la API.
 
@@ -548,7 +548,7 @@ En Formulario.jsx
 ```
 
 ### Añadiendo ambos Select con Opciones
-Vamso a crear un nuevo Custom Hook llamado useCryptoMonedas que recibe como parametro el Label y el Array de CryptoMonedas que nos devuelve la API y que almacenamos en el State que creamos anteriormente. Este Custom Hook va a retornar el State (Crypto Seleccionada) y el Select de CryptoMonedas (Componente de HTML).
+Vamso a crear un nuevo Custom Hook llamado SelectCripto que recibe como parametro el Label y el Array de CryptoMonedas que nos devuelve la API y que almacenamos en el State que creamos anteriormente. Este Custom Hook va a retornar el State (Crypto Seleccionada por el usuario en el Select) y el Select de CryptoMonedas (Componente de HTML).
 
 De esta manera nuestros Custom Hooks son 100% dinamicos, reutilizables. Cada Hook tiene su Label, cada Hook tiene su informacion y cada Hook tiene su State.
 
@@ -591,7 +591,7 @@ En Formulario.jsx
 ```
 
 ### Validando el Formulario
-Vamos a crear un State error para validar el Formulario. Este State error va a ser un Booleano que va a indicar si el Formulario esta correcto o no. Si el Formulario esta correcto, se va a mostrar el Componente de Cotizacion, si no, se va a mostrar un Mensaje de Error.
+Vamos a crear un State de Error para validar el Formulario. Este State error va a ser un Booleano que va a indicar si el Formulario esta correcto o no. Si el Formulario esta correcto, se va a mostrar el Componente de Cotizacion, si no, se va a mostrar un Mensaje de Error.
 
 Una vez seleccionada la Moneda y Cryptomoneda vamos a crear una Funcion handleSubmit que se va a ejecutar cuando el Usuario haga Submit al Formulario es decir, un Evento onSubmit() dentro del Form. Esta Funcion va a validar que el Usuario haya seleccionado una Moneda y una Cryptomoneda. Si no selecciono ninguna, va a mostrar un Mensaje de Error. Si selecciono ambas, va a mostrar el Componente de Cotizacion.
 
@@ -662,12 +662,13 @@ const Formulario = () => {
   const handleSubmit = e => {
     e.preventDefault()
     
+    // if([moneda, criptomoneda].includes('')) return setError(true)
     if ([moneda, cripto].includes('')) {
       return setError(true)
     }
 
     setError(false)
-    console.log('enviando formulario')
+    console.log('Enviando formulario')
   }
 
   return (
@@ -686,9 +687,9 @@ const Formulario = () => {
 ```
 
 ## Detectando los Valores de las Monedas
-Debemos pasar el State de Moneda y CriptoMoneda al Componente App.js para que este los pase al Componente Cotizacion.jsx de Resultados que se va a Encontrar debajo de Formulario.jsx. Para esto vamos a crear un State en App.js llamado cotizacion. Este State va a ser un Objeto que va a contener la Moneda y la CriptoMoneda seleccionadas.
+Debemos pasar el State de Moneda y CriptoMoneda al Componente App.js para que este los pase al Componente Cotizacion.jsx de Resultados que se va a Encontrar debajo de Formulario.jsx dentro del mismo App.jsx. Para esto vamos a crear un State en App.js llamado cotizacion. Este State va a ser un Objeto que va a contener la Moneda y la CriptoMoneda seleccionadas.
 
-En Formulario.jsx tenemos el State de Moneda y el State de Criptomoneda en base a el CustomHook. Lo requerimos pasar a estos States al App.jsx pq luego de del Componente de Formulario.jsx donde cargamos los Datos, tenemos el Componente de Resultado.jsx donde mostramos los Resultados.
+En Formulario.jsx tenemos el State de Moneda y el State de Criptomoneda en base a el CustomHook. Requerimos pasar estos States al App.jsx pq luego de del Componente de Formulario.jsx donde cargamos los Datos, tenemos el Componente de Resultado.jsx donde mostramos los Resultados.
 
 En App.jsx
 ```jsx
@@ -772,7 +773,7 @@ En Formulario.jsx pasamos los valores de los States luego de la validacion:
 ```
 
 ## Consultando en la API las monedas a Cotizar
-Obtenemos el Resultado de la API de forma dinamica tanto para la creacion de la URL, donde se pasa el valor de la Moneda y la CriptoMoneda seleccionada en el State de cada Custom Hook de moneda y Cryptomoneda, como para la obtencion de los valores de la Cotizacion en base al Resultado JSON de la API que es un Objeto al cual debemos tambien acceder de forma dinamica. Los valores de Cryptomonedas que se mandan por la URL a la API, son los mismos que se obtienen de la API y se guardan dentro del State de Cryptomonedas para ser cargados en el Select de Criptomonedas uno a uno creando un Select distinto gracias al Custom Hook que recorre este Array de Criptomonedas al cual le pasamos las mismas por parametro. Luego el valor Seleccionado en el Select de Criptomonedas se pasa al State de Monedas y se utiliza para la creacion de la URL de la API en App.jsx.
+Obtenemos el Resultado de la API de forma dinamica tanto para la creacion de la URL, donde se pasa el valor de la Moneda y la CriptoMoneda seleccionada en el State de cada Custom Hook de Moneda y Cryptomoneda, como para la obtencion de los valores de la Cotizacion en base al Resultado JSON de la API que es un Objeto al cual debemos tambien acceder de forma dinamica. Los valores de Cryptomonedas que se mandan por la URL a la API, son los mismos que se obtienen de la API y se guardan dentro del State de Cryptomonedas para ser cargados en el Select de Criptomonedas uno a uno creando un Select distinto gracias al Custom Hook que recorre este Array de Criptomonedas al cual le pasamos las mismas por parametro. Luego el valor Seleccionado en el Select de Criptomonedas se pasa al State de Monedas y se utiliza para la creacion de la URL de la API en App.jsx.
 
 El Resultado de la consulta a la API lo almacenamos dentro de un State Resultado para luego pasarlo al Componente de Resultado.jsx para mostrarlo en pantalla.
 

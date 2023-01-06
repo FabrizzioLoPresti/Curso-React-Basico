@@ -18,11 +18,18 @@ const Select = styled.select`
 `
 
 const useSelectMonedas = (label, opciones) => {
+
+  const [state, setState] = useState('')
   
   const SelectMonedas = () => (
     <>
       <Label htmlFor="monedas">{label}</Label> 
-      <Select name="monedas" id="monedas">
+      <Select 
+        name="monedas" 
+        id="monedas"
+        value={state}
+        onChange={e => setState(e.target.value)}
+      >
         <option value="" disabled>-- Seleccione --</option>
         {opciones.map(opcion => (
           <option key={opcion.id} value={opcion.id}>
@@ -34,6 +41,7 @@ const useSelectMonedas = (label, opciones) => {
   )
 
   return [
+    state,
     SelectMonedas
   ]
 }

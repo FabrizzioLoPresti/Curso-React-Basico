@@ -1,2 +1,3 @@
 - Administrador Pacientes React: [Administrador Pacientes](https://administrador-pacientes-cursoreact.netlify.app/)
 - Planificador Gastos React: [Planificador Gastos](https://planificador-gastos-cursoreact.netlify.app/)
+- Cotizador Crypto: [Cotizado Crypto](https://cotizador-crypto-cursoreact.netlify.app/)

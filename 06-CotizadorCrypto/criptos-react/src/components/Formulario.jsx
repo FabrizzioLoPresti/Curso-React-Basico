@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
+import Error from './Error'
 import useSelectMonedas from '../hooks/useSelectMonedas'
 import { monedas } from '../data/monedas'
 
@@ -23,17 +24,58 @@ margin-top: 30px;
   }
 `
 
-const Formulario = () => {
+const Formulario = ({setMonedas}) => {
 
-  const [SelectMonedas] = useSelectMonedas('Elige tu moneda', monedas)
-  // const [SelectCriptomonedas] = useSelectMonedas('Elige tu Criptomoneda')
+  const [error, setError] = useState(false)
+  const [cryptos, setCryptos] = useState([])
+
+  const [moneda, SelectMonedas] = useSelectMonedas('Elige tu moneda', monedas)
+  const [criptomoneda, SelectCriptomonedas] = useSelectMonedas('Elige tu Criptomoneda', cryptos)
   // SelectMonedas()
+
+  useEffect(() => {
+    const consultarAPI = async () => {
+      const url = 'https://min-api.cryptocompare.com/data/top/mktcapfull?limit=10&tsym=USD'
+      const respuesta = await fetch(url)
+      const resultado = await respuesta.json()
+
+      // Utilizamos un Return
+      // const arrayCryptos = resultado.Data.map(crypto => {
+      //   return {
+      //     id: crypto.CoinInfo.Name,
+      //     nombre: crypto.CoinInfo.FullName,
+      //   }
+      // })
+      // Return Implicito
+      const arrayCryptos = resultado.Data.map(crypto => ({
+        id: crypto.CoinInfo.Name,
+        nombre: crypto.CoinInfo.FullName
+      }))
+      setCryptos(arrayCryptos)
+    }
+    consultarAPI()
+  }, [])
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    
+    if([moneda, criptomoneda].includes('')) return setError(true)
+
+    setError(false)
+    setMonedas({moneda, criptomoneda})
+  }
+
   return (
-    <form>
-      <SelectMonedas />
-      {/* <SelectCriptomonedas /> */}
-      <InputSubmit type="submit" value="Cotizar" />
-    </form>
+    <>
+      {error && <Error>Todos los campos son obligatorios</Error>}
+      <form
+        onSubmit={handleSubmit}
+      >
+        <SelectMonedas />
+        <SelectCriptomonedas />
+        <InputSubmit type="submit" value="Cotizar" />
+      </form>
+    </>
   )
 }
 
