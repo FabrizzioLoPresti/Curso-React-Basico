@@ -150,21 +150,309 @@ En src creamos la Carpeta de pages y dentro el Componente NuevoCliente.jsx e Ind
 ## Creando el Layout Principal
 En Layout.jsx
 ```jsx
-import { Outlet } from 'react-router-dom'
-const Layout = () => {
-  return (
-    <div className='md:flex md:min-h-screen'>
-      <aside className='md:w-1/4 bg-blue-900 px-5 py-10'>
-        <h2 className='text-4xl font-black text-center text-white'>CRM - Clientes</h2>
-      </aside>
-      
-      <main className='md:w-3/4 p-10 md:h-screen overflow-scroll'>
-        <Outlet /> // Aqui se inserta el Contenido de cada Componente desde el main.jsx
-      </main>
-    </div>
-  )
-}
-export default Layout
+  import { Outlet } from 'react-router-dom'
+  const Layout = () => {
+    return (
+      <div className='md:flex md:min-h-screen'>
+        <aside className='md:w-1/4 bg-blue-900 px-5 py-10'>
+          <h2 className='text-4xl font-black text-center text-white'>CRM - Clientes</h2>
+        </aside>
+        
+        <main className='md:w-3/4 p-10 md:h-screen overflow-scroll'>
+          <Outlet /> // Aqui se inserta el Contenido de cada Componente desde el main.jsx
+        </main>
+      </div>
+    )
+  }
+  export default Layout
 ```
 
 ## Navegar entre Componentes con Link
+Actualmente tenemos solamente dos Pages pero luego vamos a tener mas, por lo que debemos utilizar una forma para navegar entre las mismas que no sea cambiando la URL de forma manual. Para ello React Router DOM nos proporciona una forma optimizada de redireccion mediante el **Componente Link**.
+
+En Layout.jsx
+```jsx
+  import { Outlet, Link } from 'react-router-dom'
+  const Layout = () => {
+    return (
+      <div className='md:flex md:min-h-screen'>
+        <aside className='md:w-1/4 bg-blue-900 px-5 py-10'>
+          <h2 className='text-4xl font-black text-center text-white'>CRM - Clientes</h2>
+
+          <nav className='mt-10'>
+            <Link className='text-2xl block mt-2 hover:text-blue-300 text-white' to="/">Clientes</Link>
+            <Link className='text-2xl block mt-2 hover:text-blue-300 text-white' to="/clientes/nuevo">Nuevo Cliente</Link>
+          </nav>
+        </aside>
+        
+        <main className='md:w-3/4 p-10 md:h-screen overflow-scroll'>
+          <Outlet />
+        </main>
+      </div>
+    )
+  }
+  export default Layout
+```
+
+## Resaltar la Pagina Actual
+Esto lo logramos mediante un Hook propio de React Router DOM, el cual cuenta con una gran cantidad de Hooks propios. **Este Hook es useLocation**.
+
+El Hook de useLocation devuelve un objeto con las siguientes propiedades:
+- Hash: Si en la URL se encuentra una seccion tal como #nosotros
+- Key: Automaticamente va cambiando a medida que el usuario navega tal como hjubfl54
+- Pathname: Ruta en la que nos encontramos actualmente tal como /clientes/nuevo
+- Search: Si en la URL se encuentran parametros como una busqueda tal como cliente=20
+
+En Layout.jsx
+```jsx
+  import { Outlet, Link, useLocation } from 'react-router-dom'
+  const Layout = () => {
+    const location = useLocation()
+    return (
+      <div className='md:flex md:min-h-screen'>
+        <aside className='md:w-1/4 bg-blue-900 px-5 py-10'>
+          <h2 className='text-4xl font-black text-center text-white'>CRM - Clientes</h2>
+          <nav className='mt-10'>
+            <Link 
+              className={`${location.pathname === '/' ? 'text-blue-300' : 'text-white'} text-2xl block mt-2 hover:text-blue-300`}
+              to="/"
+            >
+              Clientes
+            </Link>
+            <Link 
+              className={`${location.pathname === '/clientes/nuevo' ? 'text-blue-300' : 'text-white'} text-2xl block mt-2 hover:text-blue-300`}
+              to="/clientes/nuevo"
+            >
+              Nuevo Cliente
+            </Link>
+          </nav>
+        </aside>
+        
+        <main className='md:w-3/4 p-10 md:h-screen overflow-scroll'>
+          <Outlet />
+        </main>
+      </div>
+    )
+  }
+```
+
+Tambien se puede utilizar el Hook de NavLink:
+```jsx
+  import { Outlet, NavLink, useLocation } from 'react-router-dom'
+  const Layout = () => {
+    const location = useLocation()
+    return (
+      <div className='md:flex md:min-h-screen'>
+        <aside className='md:w-1/4 bg-blue-900 px-5 py-10'>
+          <h2 className='text-4xl font-black text-center text-white'>CRM - Clientes</h2>
+          <nav className='mt-10'>
+            <NavLink
+              className={({isActive}) => isActive ? 'text-blue-300 text-2xl block mt-2' : 'text-white text-2xl block mt-2'}
+              to={'/'}
+            >
+              Clientes
+            </NavLink>
+
+            <NavLink
+              className={({isActive}) => isActive ? 'text-blue-300 text-2xl block mt-2' : 'text-white text-2xl block mt-2'}
+              to={'/clientes/nuevo'}
+            >
+              Nuevo Cliente
+            </NavLink>
+          </nav>
+        </aside>
+        
+        <main className='md:w-3/4 p-10 md:h-screen overflow-scroll'>
+          <Outlet />
+        </main>
+      </div>
+    )
+  }
+```
+
+## Creando un Loader
+Cuando este en la Pagina de Nuevo Cliente deberia aparecer un Formulario para la carga de un Nuevo Cliente, mientras que si me encuentro en la Pagina de Clientes deberia aparecer un Listado con los Clientes actuales ya guardados. Usualmente en React, estos Clientes se almacenarian en un State de React (`const [clientes, setClientes] = useState([])`) luego de consultar la API mediante un Hook de useEffect al momento de cargar y estar listo el Componente. 
+
+Pero en el caso de React Router DOM esto es un poco diferente, nos brinda una **Funcion llamada Loader**, esta Funcion es muy similar a un useEffect y es una Funcion que se va a ejecutar cuando el Componente cargue y este listo, y es ideal para cargar un State o consultar una API. **Esta Funcion de Loader siempre debe retornar algo**.
+
+En main.jsx
+```jsx
+  import Index, { loader as clientesLoader } from './pages/Index'
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <Layout />,
+      children: [
+        {
+          index: true,
+          element: <Index />,
+          loader: clientesLoader
+        },
+        {
+          path: '/clientes/nuevo',
+          element: <NuevoCliente />
+        }
+      ]
+    },
+  ])
+```
+
+En Index.jsx
+```jsx
+  export const loader = () => {
+    return 'Desde Loader'
+  }
+  const Index = () => {
+    return (
+      <>
+        <h1 className='font-black text-4xl text-blue-900'>Clientes</h1>
+        <p className='mt-3'>Administra tus Clientes</p>
+      </>
+    )
+  }
+  export default Index
+```
+
+## Obtener los Datos del Loader con useLoaderData
+El Loader actua muy similar a un useEffect de React, se va a ejecutar cuando el Componente este listo. Tambien la Funcion de loader() declarada en el Index.jsx debe estar SIEMPRE en minuscula y SIEMPRE debe retornar algo y usualmente siempre va a ser el State del Componente.
+
+Exportamos la Funcion del Loader() hacia el main.jsx donde le decimos dentro del createBrowserRouter que para el Componente de Index.jsx su loader va a ser clientesLoader que lo importamos y renombramos en la parte superior junto con el Import del Componente Index.jsx y de esta manera ya va a estar disponible en el Componente de Index.jsx. 
+
+Dentro del Index.jsx no hay que poner un Import a ningun archivo, tampoco lo mandas a llamar directamente al Loader, sino que se utiliza un Hook totalmente nuevo que se va a encargar de obtener lo que retornes en el Loader que esta asociado a ese Componente (Index.jsx).
+
+En Index.jsx
+```jsx
+  import { useLoaderData } from 'react-router-dom'
+  export const loader = () => {
+    const clientes = [
+      {
+        id: 1,
+        nombre: 'Juan',
+        telefono: 102013313,
+        email: "juan@juan.com",
+        empresa: 'Codigo Con Juan'
+      },
+      {
+        id: 2,
+        nombre: 'Karen',
+        telefono: 138198313,
+        email: "karen@juan.com",
+        empresa: 'Codigo Con Juan'
+      },
+    ]
+    return clientes
+  }
+
+  const Index = () => {
+    const datos = useLoaderData()
+    console.log( datos )
+    return (
+      <>
+        <h1 className='font-black text-4xl text-blue-900'>Clientes</h1>
+        <p className='mt-3'>Administra tus Clientes</p>
+      </>
+    )
+  }
+```
+
+## Iterando sobre Clientes y Mostrando la Informacion
+Iteramos el Arreglo de Clientes y creamos un Nuevo Componente por cada Cliente, donde por medio de Props enviamos el Key y el Objeto Cliente del Array recorrido.
+
+En Index.jsx
+```jsx
+  import { useLoaderData } from 'react-router-dom'
+  import Cliente from '../components/Cliente'
+  export const loader = () => {
+    const clientes = [
+    ]
+    return clientes
+  }
+
+  const Index = () => {
+    const clientes = useLoaderData()
+    return (
+      <>
+        <h1 className='font-black text-4xl text-blue-900'>Clientes</h1>
+        <p className='mt-3'>Administra tus Clientes</p>
+
+        {clientes.length ? 
+        (
+          <table className='w-full bg-white shadow mt-5 table-auto'>
+            <thead className='bg-blue-800 text-white'>
+              <tr>
+                <th className='p-2'>Clientes</th>
+                <th className='p-2'>Contacto</th>
+                <th className='p-2'>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {clientes.map(cliente => (
+                <Cliente 
+                  key={cliente.id}
+                  cliente={cliente}
+                />
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p className='text-center mt-10'>No hay clientes aun</p>
+        )}
+      </>
+    )
+  }
+```
+
+En Cliente.jsx
+```jsx
+  const Cliente = ({cliente}) => {
+    const { id, nombre, telefono, email, empresa } = cliente
+    return (
+      <tr>
+        <td className='p-6'>{nombre}</td>
+      </tr>
+    )
+  }
+```
+
+## Mostrando el Resto de la Informacion
+En Cliente.jsx
+```jsx
+  const Cliente = ({cliente}) => {
+    const { id, nombre, telefono, email, empresa } = cliente
+    return (
+      <tr className="border-b">
+        <td className="p-6 space-y-2">
+          <p className="text-2xl text-gray-800">{nombre}</p>
+          <p>{empresa}</p>
+        </td>
+        <td className="p-6">
+          <p className="text-gray-600">
+            <span className="text-gray-800 uppercase font-bold">Email: </span>
+            {email}
+          </p>
+          <p className="text-gray-600">
+            <span className="text-gray-800 uppercase font-bold">Tel: </span>
+            {telefono}
+          </p>
+        </td>
+        <td className="p-6 flex gap-3">
+          <button
+            type="button"
+            className="text-blue-600 hover:text-blue-700 uppercase font-bold text-xs"
+          >
+            Editar
+          </button>
+
+          <button
+            type="button"
+            className="text-red-600 hover:text-red-700 uppercase font-bold text-xs"
+          >
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    )
+  }
+```
+
+## Primeros pasos creando el Formulario de Clientes
