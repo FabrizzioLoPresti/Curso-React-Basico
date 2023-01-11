@@ -456,3 +456,244 @@ En Cliente.jsx
 ```
 
 ## Primeros pasos creando el Formulario de Clientes
+Vamos a utilizar un Nuevo Hook llamado useNavigate proporcionado por React Router DOM el cual nos va a permitir navegar de forma programada, es decir no de forma fija como los Link o NavLink, sino cuando el Usuario presiona un Button o pasa una Validacion.
+
+Existe otro Hook de React Router DOM llamado `redirect` el cual es ideal cuando trabajamos con Loaders(useEffects de React Router DOM).
+
+En NuevoCliente.jsx
+```jsx
+  import { useNavigate } from 'react-router-dom'
+  const NuevoCliente = () => {
+    const navigate = useNavigate()
+    return (
+      <>
+        <h1 className='font-black text-4xl text-blue-900'>Nuevo Cliente</h1>
+        <p className='mt-3'>Llena todos los campos para registrar un nuevo cliente</p>
+
+        <div className='flex justify-end'>
+          <button
+            type='button'
+            className='bg-blue-800 text-white px-3 py-1 font-bold uppercase'
+            onClick={() => navigate('/')}
+            // onClick={() => navigate(-1)}
+          >
+            Volver
+          </button>
+        </div>
+
+        <div className='bg-white shadow rounded-md md:w-3/4 mx-auto px-5 py-10'>
+          <p>Formulario</p>
+        </div>
+      </>
+    )
+  }
+  export default NuevoCliente
+```
+
+## Agregando el Formulario
+Agregamos un Formulario el cual tiene los diferentes Campos con su Label y su Input asociado, ademas el mismo Componente de Formulario toma por medio de Props un Objeto de Cliente, ya que este Componente va a ser reutilizado no solamente para Registrar Nuevos Clientes (Objeto de Cliente vacio), sino tambien para Editar Clientes Existentes (por ello se le pasa al Componente de Formulario por medio de Props un Objeto Cliente con los datos cargados del Cliente a Editar para llenar lso campos del Formulario con estos).
+
+Colocamos el Submit en el Componente de NuevoCliente.jsx (donde se encuentra la etiqueda del Form) por fuera del Componente de Formulario.jsx para hacerlo reutilizable.
+
+Generalmente para asociarle una Funcion al Evento Submit del Formulario se le colocaba al Mismo un Evento OnSubmit de React que detecte el Momento en el que se Envian los datos para llamar una Funcion de HandleSubmit la cual prevenia la accion por default, validaba los datos y mostraba error o los enviaba. Pero con React Router DOM no requieres nada de esto.
+
+En Formulario.jsx
+```jsx
+  const Formulario = ({ cliente }) => {
+    return (
+      <>
+        <div className="mb-4">
+          <label className="text-gray-800" htmlFor="nombre">
+            Nombre:
+          </label>
+          <input
+            id="nombre"
+            type="text"
+            className="mt-2 block w-full p-3 bg-gray-50"
+            placeholder="Nombre del Cliente"
+            name="nombre"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="text-gray-800" htmlFor="empresa">
+            Empresa:
+          </label>
+          <input
+            id="empresa"
+            type="text"
+            className="mt-2 block w-full p-3 bg-gray-50"
+            placeholder="Empresa del Cliente"
+            name="empresa"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="text-gray-800" htmlFor="email">
+            E-mail:
+          </label>
+          <input
+            id="email"
+            type="email"
+            className="mt-2 block w-full p-3 bg-gray-50"
+            placeholder="Email del Cliente"
+            name="email"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="text-gray-800" htmlFor="telefono">
+            Teléfono:
+          </label>
+          <input
+            id="telefono"
+            type="tel"
+            className="mt-2 block w-full p-3 bg-gray-50"
+            placeholder="Teléfono del Cliente"
+            name="telefono"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="text-gray-800" htmlFor="notas">
+            Notas:
+          </label>
+          <textarea
+            as="textarea"
+            id="notas"
+            type="text"
+            className="mt-2 block w-full p-3 bg-gray-50 h-40 align-self"
+            placeholder="Notas del Cliente"
+            name="notas"
+          />
+        </div>
+      </>
+    )
+  }
+```
+
+En NuevoCliente.jsx
+```jsx
+  import { useNavigate } from 'react-router-dom'
+  import Formulario from '../components/Formulario'
+
+  const NuevoCliente = () => {
+    const navigate = useNavigate()
+    return (
+      <>
+        <h1 className='font-black text-4xl text-blue-900'>Nuevo Cliente</h1>
+        <p className='mt-3'>Llena todos los campos para registrar un nuevo cliente</p>
+        <div className='flex justify-end'>
+          <button
+            type='button'
+            className='bg-blue-800 text-white px-3 py-1 font-bold uppercase'
+            onClick={() => navigate('/')}
+            // onClick={() => navigate(-1)}
+          >
+            Volver
+          </button>
+        </div>
+
+        <div className='bg-white shadow rounded-md md:w-3/4 mx-auto px-5 py-10 mt-20'>
+          <form>
+            <Formulario />
+            <input 
+              type="submit" 
+              value="Registrar Cliente" 
+              className='mt-5 w-full bg-blue-800 uppercase font-bold text-white text-lg'  
+            />
+          </form>
+        </div>
+      </>
+    )
+  }
+```
+
+## Creando un Action para el Formulario
+En esta nueva Version de React Router DOM se agrego ademas de Manejo de Rutas, Manejo de Peticiones HTTP (GET (utilizando los Loaders), POST, PUT, PATCH, DELETE), tambien agregando un Componente nuevo para Formularios (`import { Form } from 'react-router-dom'`) y una Funcion para manejar las Peticiones de Tipo POST mediante la creacion de una Funcion action() la cual debemos hacerle saber al Formulario que se mande a llamar al momento en el que el Usuario hace click en el Boton y se manda a llamar el Evento Submit del Formulario. 
+
+En el main.jsx le asociamos dentro del `createBrowserRouter` la Funcion action() que extraemos del Componente de NuevoCliente.jsx renombrandola al Componente de NuevoCliente.jsx donde se encuentra el Form que requiere del action(), de esta manera gracias a React Router DOM se asocia de forma automatica el action que definimos al Formulario y se ejecuta de forma inmediata al momento de que el Usuario hace click en el Input Submit.
+
+En main.jsx
+```jsx
+  import NuevoCliente, { action as nuevoClienteAction } from './pages/NuevoCliente'
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <Layout />,
+      children: [
+        {
+          index: true,
+          element: <Index />,
+          loader: clientesLoader
+        },
+        {
+          path: '/clientes/nuevo',
+          element: <NuevoCliente />,
+          action: nuevoClienteAction
+        }
+      ]
+    },
+  ])
+```
+
+En NuevoCliente.jsx
+```jsx
+  import { useNavigate, Form } from 'react-router-dom'
+  import Formulario from '../components/Formulario'
+
+  export const action = () => {
+    console.log( 'Submit al Formulario' )
+    return { ok: true }
+  }
+
+  const NuevoCliente = () => {
+    const navigate = useNavigate()
+    return (
+      <>
+        <h1 className='font-black text-4xl text-blue-900'>Nuevo Cliente</h1>
+        <p className='mt-3'>Llena todos los campos para registrar un nuevo cliente</p>
+        <div className='flex justify-end'>
+          <button
+            type='button'
+            className='bg-blue-800 text-white px-3 py-1 font-bold uppercase'
+            onClick={() => navigate('/')}
+            // onClick={() => navigate(-1)}
+          >
+            Volver
+          </button>
+        </div>
+
+        <div className='bg-white shadow rounded-md md:w-3/4 mx-auto px-5 py-10 mt-20'>
+          <Form
+            method='POST'
+          >
+            <Formulario />
+            <input 
+              type="submit" 
+              value="Registrar Cliente" 
+              className='mt-5 w-full bg-blue-800 uppercase font-bold text-white text-lg'  
+            />
+          </Form>
+        </div>
+      </>
+    )
+  }
+```
+
+## Leer la Informacion Ingresada a un Formulario con FormData
+En NuevoCliente.jsx
+```jsx
+  export const action = async ({ request }) => {
+    console.log( request )
+
+    const formData = await request.formData()
+    console.log( ...formData )
+
+    const datos = Object.fromEntries(formData)
+    console.log( datos )
+
+    return { ok: true }
+  }
+```
+
+## Añadir Validacion al Formulario
